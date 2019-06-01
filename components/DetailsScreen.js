@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, Text } from 'react-native';
-import SignUp from './signUp';
+import FCall from './fCall';
 
 class DetailsScreen extends Component {
   static navigationOptions = {
@@ -8,9 +8,11 @@ class DetailsScreen extends Component {
   };
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <SignUp />
-      </View>
+      <React.Fragment>
+        <FCall />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        </View>
+      </React.Fragment>
     );
   }
 }

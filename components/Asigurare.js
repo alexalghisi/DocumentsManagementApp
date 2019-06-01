@@ -5,14 +5,18 @@ import {
   View,
   Button,
   TextInput,
-  StyleSheet
-} from 'react-native'
+  StyleSheet,
+  Alert,
+  ScrollView,
+} from 'react-native';
+//import React, { Component } from 'react';
+//import { StyleSheet, ScrollView, View } from 'react-native';
+//import { List, ListItem, Text, Card } from 'react-native-elements';
 
 const storeItem = async (key: $Values<typeof storageKeys>, value: any) => {
   try {
     await AsyncStorage.setItem(key, typeof value !== 'string' ? JSON.stringify(value) : value);
      Alert.alert(
-
       'Masina adaugata',
       'My Alert Msg',
       [
@@ -36,11 +40,13 @@ export default class Asigurare extends React.Component {
     username: '', nume: '', CNP: '', NR_MASINA: ''
   };
   onChangeText = (key, val) => {
-      storeItem("masina", this.state);
-      Alert.alert(
-          'Masina adaugata');
+     // storeItem("masina", this.state);
+      /*Alert.alert(
+          'Masina adaugata');*/
   };
   adauga = async () => {
+    storeItem("masina", this.state);
+    console.log("adauga !!!");
     const { username, password, email, phone_number } = this.state;
     try {
 
@@ -77,14 +83,14 @@ export default class Asigurare extends React.Component {
         />
         <TextInput
           style={styles.input}
-          placeholder='Numare de telefon'
+          placeholder='Numar de telefon'
           autoCapitalize="none"
           placeholderTextColor='white'
           onChangeText={val => this.onChangeText('phone_number', val)}
         />
         <Button
           title='Adauga'
-          onPress={this.adsuga}
+          onPress={this.adauga}
         />
       </View>
     )
