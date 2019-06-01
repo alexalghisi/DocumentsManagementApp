@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "react": "16.5.0",
+    "react-native": "0.57.1",
+    "react-native-elements": "^1.1.0",
+    "react-native-gesture-handler": "^1.2.2",
+    "react-navigation": "^3.11.0"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^5.0.0"
+  },
+  "private": true
+}
