@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, Text } from 'react-native';
+import Asigurare from './Asigurare';
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -8,6 +9,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Asigurare/>
         <Text>Home Screen</Text>
         <Button
           title="Go to Details"
@@ -19,4 +21,3 @@ class HomeScreen extends Component {
 }
 
 export default HomeScreen;
-
