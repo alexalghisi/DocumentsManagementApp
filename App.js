@@ -45,7 +45,14 @@ import List from './src/screens/List';
 const AppNavigator = createStackNavigator({
   Home: {
     screen: Home
+  },
+  List: {
+    screen: List,
+  },
+  AddItem: {
+    screen: AddItem,
   }
+
 });
 
 const AppContainer = createAppContainer(AppNavigator);

@@ -3,7 +3,6 @@ import { Button, View, Text } from 'react-native';
 
 export default class Home extends Component {
   render() {
-    console.log("TEST");
     return (
       <View>
         <Text>Something else</Text>
