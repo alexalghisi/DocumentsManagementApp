@@ -1,5 +1,5 @@
 import Firebase from 'firebase';
-let config = {
+const config = {
   apiKey: "AIzaSyAIOvgc0HXdslH-5wwBxnViO16MnEuy1ZA",
   authDomain: "coolapp-8abb2.firebaseapp.com",
   databaseURL: "https://coolapp-8abb2.firebaseio.com",
@@ -7,5 +7,5 @@ let config = {
   storageBucket: "",
   messagingSenderId: "285933871333",
 };
-let app = Firebase.initializeApp(config);
+const app = Firebase.initializeApp(config);
 export const db = app.database();

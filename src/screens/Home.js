@@ -3,8 +3,10 @@ import { Button, View, Text } from 'react-native';
 
 export default class Home extends Component {
   render() {
+    console.log("TEST");
     return (
       <View>
+        <Text>Something else</Text>
         <Button
           title="Add an Item"
           onPress={() => this.props.navigation.navigate('AddItem')}
@@ -12,7 +14,10 @@ export default class Home extends Component {
         <Button
           title="List of Items"
           color="green"
-          onPress={() => this.props.navigation.navigate('List')}
+          onPress={() => {
+               console.log('test');
+               this.props.navigation.navigate('List');
+          }}
         />
       </View>
     );
