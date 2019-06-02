@@ -5,7 +5,6 @@ export default class Home extends Component {
   render() {
     return (
       <View>
-        <Text>Something else</Text>
         <Button
           title="Add an Item"
           onPress={() => this.props.navigation.navigate('AddItem')}

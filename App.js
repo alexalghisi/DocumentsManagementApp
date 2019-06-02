@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './src/components/HomeScreen';
@@ -33,8 +33,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});*/
-import React, { Component } from 'react';
+});
+
+/*import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Home from './src/screens/Home';
 
@@ -61,4 +62,4 @@ export default class App extends Component {
   render() {
     return <AppContainer />;
   }
-}
+}*/

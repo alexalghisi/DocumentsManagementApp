@@ -1,59 +1,38 @@
-// SignUp.js
-import { AsyncStorage } from 'react-native';
 import React from 'react'
 import {
   View,
   Button,
   TextInput,
   StyleSheet,
-  Alert,
-  ScrollView,
+  AlertIOS,
+  Picker
 } from 'react-native';
-//import React, { Component } from 'react';
-//import { StyleSheet, ScrollView, View } from 'react-native';
-//import { List, ListItem, Text, Card } from 'react-native-elements';
+//import AddItem from '../screens/AddItem';
+import { db } from '../config';
 
-const storeItem = async (key: $Values<typeof storageKeys>, value: any) => {
-  try {
-    await AsyncStorage.setItem(key, typeof value !== 'string' ? JSON.stringify(value) : value);
-     Alert.alert(
-      'Masina adaugata',
-      'My Alert Msg',
-      [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-      {cancelable: false},
-    );
-  } catch (error) {
-
-  }
+let addItem = item => {
+  db.ref('/items').push({
+    name: item
+  });
 };
 
 export default class Asigurare extends React.Component {
   state = {
-    username: '', nume: '', CNP: '', NR_MASINA: ''
+     nume: '', CNP: '', NR_MASINA: '', perioada: '', phone_number: '',
   };
   onChangeText = (key, val) => {
-     // storeItem("masina", this.state);
-      /*Alert.alert(
-          'Masina adaugata');*/
+    this.setState({ [key]: val })
   };
-  adauga = async () => {
-    storeItem("masina", this.state);
-    console.log("adauga !!!");
-    const { username, password, email, phone_number } = this.state;
-    try {
+  addAsig = () =>
+  {
+    AlertIOS.alert('Item saved successfully');
 
-      // here place your signup logic
-      console.log('user successfully signed up!: ', success)
+    console.log(this.state);
+    addItem(this.state);
+
+    const { NR_MASINA,CNP,nume, phone_number,parioada } = this.state;
+    try {
     } catch (err) {
-      console.log('error signing up: ', err)
     }
   };
 
@@ -85,12 +64,24 @@ export default class Asigurare extends React.Component {
           style={styles.input}
           placeholder='Numar de telefon'
           autoCapitalize="none"
+          maxLength={10}
           placeholderTextColor='white'
           onChangeText={val => this.onChangeText('phone_number', val)}
         />
+
+        <Picker
+          style={{width: 100}}
+          selectedValue={this.state.perioada}
+          onValueChange={(val) => this.setState({perioada: val})}>
+          <Picker.Item label="3 luni" value="3 luni" />
+          <Picker.Item label="6 luni" value="6 luni" />
+          <Picker.Item label="1 an" value="1 an" />
+
+        </Picker>
+
         <Button
           title='Adauga'
-          onPress={this.adauga}
+          onPress={this.addAsig}
         />
       </View>
     )
