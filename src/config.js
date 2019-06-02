@@ -1,11 +1,11 @@
 import Firebase from 'firebase';
 let config = {
-  apiKey: 'AIzaSyCPmA6NTbVD7xFakN-NTVbVfxO5l3-PEXs\n',
-  authDomain: 'rnfirebXXX-XXXX.firebaseapp.com',
-  databaseURL: 'rnfirebXXX-XXXX.firebaseapp.com',
-  projectId: 'coolapp-c6f53',
-  storageBucket: 'rnfirebase-XXXX.appspot.com',
-  messagingSenderId: 'XXXXXXX'
+  apiKey: "AIzaSyAIOvgc0HXdslH-5wwBxnViO16MnEuy1ZA",
+  authDomain: "coolapp-8abb2.firebaseapp.com",
+  databaseURL: "https://coolapp-8abb2.firebaseio.com",
+  projectId: "coolapp-8abb2",
+  storageBucket: "",
+  messagingSenderId: "285933871333",
 };
 let app = Firebase.initializeApp(config);
 export const db = app.database();
