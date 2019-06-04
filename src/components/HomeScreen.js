@@ -1,23 +1,108 @@
 import React, { Component } from 'react';
-import { Button, View, Text } from 'react-native';
-import Asigurare from './Asigurare';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  TouchableHighlight,
+  Image,
+  Alert
+} from 'react-native';
 
-class HomeScreen extends Component {
-  static navigationOptions = {
-    title: 'Home',
-  };
+export default class LoginView extends Component {
+
+  constructor(props) {
+    super(props);
+    state = {
+      email   : '',
+      password: '',
+    }
+  }
+
+  onClickListener = (viewId) => {
+    Alert.alert("Alert", "Button pressed "+viewId);
+  }
+
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Asigurare/>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Email"
+              keyboardType="email-address"
+              underlineColorAndroid='transparent'
+              onChangeText={(email) => this.setState({email})}/>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Parola"
+              secureTextEntry={true}
+              underlineColorAndroid='transparent'
+              onChangeText={(password) => this.setState({password})}/>
+        </View>
+
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
+            <Text>Forgot your password?</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
+            <Text>Register</Text>
+        </TouchableHighlight>
       </View>
     );
   }
 }
 
-export default HomeScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#DCDCDC',
+  },
+  inputContainer: {
+      borderBottomColor: '#eceff5',
+      backgroundColor: '#eceff5',
+      borderRadius:30,
+      borderBottomWidth: 1,
+      width:250,
+      height:45,
+      marginBottom:20,
+      flexDirection: 'row',
+      alignItems:'center'
+  },
+  inputs:{
+      height:45,
+      marginLeft:16,
+      borderBottomColor: '#FFFFFF',
+      flex:1,
+  },
+  inputIcon:{
+    width:30,
+    height:30,
+    marginLeft:15,
+    justifyContent: 'center'
+  },
+  buttonContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+  },
+  loginButton: {
+    backgroundColor: "#3578e5",
+  },
+  loginText: {
+    color: '#eceff5',
+  }
+});
+

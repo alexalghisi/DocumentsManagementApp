@@ -17,12 +17,17 @@ let addItem = item => {
 };
 
 export default class Asigurare extends React.Component {
-  state = {
-     nume: '', CNP: '', NR_MASINA: '', perioada: '', phone_number: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      nume: '', CNP: '', NR_MASINA: '', perioada: '', phone_number: '',
+    };
+  }
+
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
   };
+
   addAsig = () =>
   {
     AlertIOS.alert('Item saved successfully');
@@ -76,7 +81,6 @@ export default class Asigurare extends React.Component {
           <Picker.Item label="3 luni" value="3 luni" />
           <Picker.Item label="6 luni" value="6 luni" />
           <Picker.Item label="1 an" value="1 an" />
-
         </Picker>
 
         <Button
