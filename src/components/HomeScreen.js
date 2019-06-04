@@ -43,15 +43,15 @@ export default class LoginView extends Component {
               onChangeText={(password) => this.setState({password})}/>
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={this.onClickListener('login')}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
+        <TouchableHighlight style={styles.buttonContainer} onPress={this.onClickListener('restore_password')}>
             <Text>Forgot your password?</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
+        <TouchableHighlight style={styles.buttonContainer} onPress={this.onClickListener('register')}>
             <Text>Register</Text>
         </TouchableHighlight>
       </View>

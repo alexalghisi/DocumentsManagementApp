@@ -2,21 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39661458-8fa4-41f7-af5e-999c5b580695" name="Default Changelist" comment="bo">
-      <change afterPath="$PROJECT_DIR$/src/components/UserInput.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/eye_black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/password.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/images/username.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/RNFirebase.build/Debug-iphonesimulator/RNFirebase.build/Objects-normal/x86_64/RNFirebaseCrashlytics.dia" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/RNFirebase.build/Debug-iphonesimulator/RNFirebase.build/Objects-normal/x86_64/RNFirebaseDatabase.dia" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/RNFirebase.build/Debug-iphonesimulator/RNFirebase.build/Objects-normal/x86_64/RNFirebaseFunctions.dia" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/11d048892c6dd5e4a63fc668d52ae032-desc.xcbuild" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/619d8f73c684b5ed9b90b3ee8c49881d-desc.xcbuild" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/11d048892c6dd5e4a63fc668d52ae032-manifest.xcbuild" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/619d8f73c684b5ed9b90b3ee8c49881d-manifest.xcbuild" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/BuildDescriptionCacheIndex-0972b074128b712c13f6c607bbe5dbb0" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/BuildDescriptionCacheIndex-0972b074128b712c13f6c607bbe5dbb0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/build.db" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/Build/Intermediates.noindex/XCBuildData/build.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/ModuleCache.noindex/Session.modulevalidation" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/ModuleCache.noindex/Session.modulevalidation" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/build/info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/build/info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Asigurare.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Asigurare.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HomeScreen.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,10 +18,31 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/HomeScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="762">
-              <caret line="104" column="19" selection-start-line="104" selection-start-column="19" selection-end-line="104" selection-end-column="19" />
+            <state relative-caret-position="412">
+              <caret line="53" column="68" selection-start-line="53" selection-start-column="68" selection-end-line="53" selection-end-column="68" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/screens/AddItem.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="7" selection-start-line="7" selection-end-line="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Asigurare.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1245">
+              <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -161,12 +167,6 @@
               <item name="myApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="myApp" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="myApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="myApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="screens" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -234,10 +234,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35861000" />
+    <option name="totallyTimeSpent" value="35885000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="6" y="23" width="1674" height="981" extended-state="6" />
+    <frame x="6" y="23" width="1674" height="981" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49943757" weight="0.22681358" />
@@ -383,11 +383,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/screens/AddItem.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="7" selection-start-line="7" selection-end-line="8" />
         </state>
       </provider>
     </entry>
@@ -410,7 +407,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Asigurare.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
+        <state relative-caret-position="1245">
           <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
@@ -440,8 +437,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/HomeScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="762">
-          <caret line="104" column="19" selection-start-line="104" selection-start-column="19" selection-end-line="104" selection-end-column="19" />
+        <state relative-caret-position="412">
+          <caret line="53" column="68" selection-start-line="53" selection-start-column="68" selection-end-line="53" selection-end-column="68" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
