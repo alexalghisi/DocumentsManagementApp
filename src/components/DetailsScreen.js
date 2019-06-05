@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text } from 'react-native';
-//import FCall from './fCall';
+import { View } from 'react-native';
 
 class DetailsScreen extends Component {
   static navigationOptions = {

@@ -5,8 +5,11 @@ import {
   View,
   TextInput,
   TouchableHighlight,
-  Alert
+  Alert,
+  Button
 } from 'react-native';
+import { boundMethod } from 'autobind-decorator';
+
 import Colors from '../constants/colors';
 import {widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
@@ -20,38 +23,65 @@ export default class LoginView extends Component {
     };
   }
 
-  onClickListener = (viewId) => {
-    Alert.alert("Alert", "Button pressed "+viewId);
+  @boundMethod
+  verify() {
+    if(this.validate(this.state.email))
+      Alert.alert("email ok");
+    else
+      Alert.alert("email wrong format");
+  };
+
+
+  validate = (val) => {
+    console.log(val);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+    if(reg.test(val) === false)
+    {
+      console.log("Email is Not Correct");
+      this.setState({email:val});
+      return false;
+    }
+    else {
+      this.setState({email:val});
+      console.log("Email is Correct");
+    }
   };
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.inputs}
+          <TextInput
+              style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
               underlineColorAndroid='transparent'
-              onChangeText={(email) => this.setState({email})}/>
-        </View>
+              onChangeText={text => this.setState({ email: text })}
+           />
+          </View>
 
         <View style={styles.inputContainer}>
-          <TextInput style={styles.inputs}
+          <TextInput
+              style={styles.inputs}
               placeholder="Parola"
               secureTextEntry={true}
               underlineColorAndroid='transparent'
-              onChangeText={(password) => this.setState({password})}/>
+              onChangeText={text => this.setState({ password: text })}
+          />
         </View>
-
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
+        <Button
+          title={"login"}
+          onPress={this.verify}
+        />
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
+        <TouchableHighlight style={styles.buttonContainer} >
             <Text>Forgot your password?</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
+        <TouchableHighlight style={styles.buttonContainer} >
             <Text>Register</Text>
         </TouchableHighlight>
       </View>
