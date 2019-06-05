@@ -4,25 +4,25 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   TouchableHighlight,
-  Image,
   Alert
 } from 'react-native';
+import Colors from '../constants/colors';
+import {widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class LoginView extends Component {
 
   constructor(props) {
     super(props);
-    state = {
+    this.state = {
       email   : '',
       password: '',
-    }
+    };
   }
 
   onClickListener = (viewId) => {
     Alert.alert("Alert", "Button pressed "+viewId);
-  }
+  };
 
   render() {
     return (
@@ -43,15 +43,15 @@ export default class LoginView extends Component {
               onChangeText={(password) => this.setState({password})}/>
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={this.onClickListener('login')}>
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={this.onClickListener('restore_password')}>
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
             <Text>Forgot your password?</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={this.onClickListener('register')}>
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
             <Text>Register</Text>
         </TouchableHighlight>
       </View>
@@ -64,14 +64,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#DCDCDC',
+    backgroundColor: Colors.backgroundColor,
   },
   inputContainer: {
-      borderBottomColor: '#eceff5',
-      backgroundColor: '#eceff5',
       borderRadius:30,
       borderBottomWidth: 1,
-      width:250,
+      width: wp('84.5%'),
       height:45,
       marginBottom:20,
       flexDirection: 'row',
@@ -80,7 +78,6 @@ const styles = StyleSheet.create({
   inputs:{
       height:45,
       marginLeft:16,
-      borderBottomColor: '#FFFFFF',
       flex:1,
   },
   inputIcon:{
@@ -95,14 +92,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom:20,
-    width:250,
+    width: wp('80%'),
     borderRadius:30,
   },
   loginButton: {
-    backgroundColor: "#3578e5",
+    backgroundColor: Colors.loginButtonColor,
   },
   loginText: {
-    color: '#eceff5',
+    color: Colors.loginButtonColor,
   }
 });
 

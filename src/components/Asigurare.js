@@ -7,7 +7,6 @@ import {
   AlertIOS,
   Picker
 } from 'react-native';
-//import AddItem from '../screens/AddItem';
 import { db } from '../config';
 
 let addItem = item => {
@@ -22,6 +21,7 @@ export default class Asigurare extends React.Component {
     this.state = {
       nume: '', CNP: '', NR_MASINA: '', perioada: '', phone_number: '',
     };
+    this.posibilites = [{label: '3 luni', value: '3 luni'} , {label: '6luni', value: '6 luni'}, {label: '1  an', value: '1  an'}];
   }
 
   onChangeText = (key, val) => {
@@ -76,11 +76,11 @@ export default class Asigurare extends React.Component {
 
         <Picker
           style={{width: 100}}
-          selectedValue={this.state.perioada}
+          selectedValue={this.posibilites}
           onValueChange={(val) => this.setState({perioada: val})}>
-          <Picker.Item label="3 luni" value="3 luni" />
-          <Picker.Item label="6 luni" value="6 luni" />
-          <Picker.Item label="1 an" value="1 an" />
+          {Object.keys(this.posibilites).map((key) => {
+            return (<Picker.Item label={this.posibilites[key]} value={key} key={key}/>) //if you have a bunch of keys value pair
+          })}
         </Picker>
 
         <Button

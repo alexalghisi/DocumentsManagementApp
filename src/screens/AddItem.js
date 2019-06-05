@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#6565fc'
   },
   title: {
     marginBottom: 20,
