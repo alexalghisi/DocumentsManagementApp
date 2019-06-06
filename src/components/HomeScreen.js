@@ -4,7 +4,7 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   Alert,
   Button
 } from 'react-native';
@@ -14,7 +14,6 @@ import Colors from '../constants/colors';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class LoginView extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -68,11 +67,12 @@ export default class LoginView extends Component {
               onChangeText={text => this.setState({ password: text })}
           />
         </View>
-        <Button
-          title={"login"}
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={this.verify}
-        />
+       <TouchableOpacity
+         style={styles.loginButton}
+         onPress={this.verify}
+       >
+         <Text style={styles.loginText}>Login</Text>
+       </TouchableOpacity>
       </View>
     );
   }
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.inputBackgorundColor,
+    backgroundColor: Colors.inputBackgroundColor,
   },
   inputContainer: {
       borderRadius:30,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
       height:45,
       marginLeft:16,
       flex:1,
-      backgroundColor: Colors.inputBackgorundColor,
+      backgroundColor: Colors.inputBackgroundColor,
   },
   buttonContainer: {
     height: 45,
@@ -110,9 +110,14 @@ const styles = StyleSheet.create({
     borderRadius:3,
   },
   loginButton: {
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: Colors.loginButtonColor,
+    color: Colors.loginButtonBackgroundColor,
+    borderRadius: 3,
+    width: wp('70%'),
+    alignItems: 'center',
+    padding: 5,
   },
   loginText: {
-    color: Colors.loginButtonColor
+    color: Colors.loginTextColor,
   }
 });
