@@ -64,6 +64,7 @@ export default class LoginView extends Component {
               placeholder="Parola"
               secureTextEntry={true}
               underlineColorAndroid='transparent'
+              maxLength={15}
               onChangeText={text => this.setState({ password: text })}
           />
         </View>
