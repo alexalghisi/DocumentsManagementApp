@@ -8,10 +8,10 @@ import {
   Alert,
   Button
 } from 'react-native';
-import { boundMethod } from 'autobind-decorator';
+import boundMethod from 'autobind-decorator';
 
 import Colors from '../constants/colors';
-import {widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class LoginView extends Component {
 
@@ -20,30 +20,29 @@ export default class LoginView extends Component {
     this.state = {
       email   : '',
       password: '',
+      emailCorrect: '',
     };
+
   }
 
   @boundMethod
   verify() {
-    if(this.validate(this.state.email))
+    if(this.validate(this.state.email)){
       Alert.alert("email ok");
+    }
     else
       Alert.alert("email wrong format");
   };
 
-
   validate = (val) => {
     console.log(val);
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(reg.test(val) === false)
     {
-      console.log("Email is Not Correct");
-      this.setState({email:val});
       return false;
     }
     else {
-      this.setState({email:val});
-      console.log("Email is Correct");
+      return true;
     }
   };
 
@@ -71,19 +70,9 @@ export default class LoginView extends Component {
         </View>
         <Button
           title={"login"}
+          style={[styles.buttonContainer, styles.loginButton]}
           onPress={this.verify}
         />
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} >
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.buttonContainer} >
-            <Text>Forgot your password?</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.buttonContainer} >
-            <Text>Register</Text>
-        </TouchableHighlight>
       </View>
     );
   }
@@ -109,20 +98,15 @@ const styles = StyleSheet.create({
       height:45,
       marginLeft:16,
       flex:1,
-  },
-  inputIcon:{
-    width:30,
-    height:30,
-    marginLeft:15,
-    justifyContent: 'center'
+      backgroundColor: Colors.inputBackgorundColor,
   },
   buttonContainer: {
-    height:45,
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom:20,
-    width: wp('80%'),
+    marginBottom: 20,
+    width: wp('85%'),
     borderRadius:3,
   },
   loginButton: {
