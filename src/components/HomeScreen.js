@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Button
 } from 'react-native';
 import boundMethod from 'autobind-decorator';
 
@@ -26,17 +25,20 @@ export default class LoginView extends Component {
 
   @boundMethod
   verify() {
+    if(this.state.password.length<3)
+       Alert.alert("password too short");
+
     if(this.validate(this.state.email)){
       Alert.alert("email ok");
     }
     else
       Alert.alert("email wrong format");
+
   };
 
   validate = (val) => {
-    console.log(val);
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if(reg.test(val) === false)
+    if(!reg.test(val))
     {
       return false;
     }
@@ -54,22 +56,20 @@ export default class LoginView extends Component {
               placeholder="Email"
               keyboardType="email-address"
               underlineColorAndroid='transparent'
-              onChangeText={text => this.setState({ email: text })}
+              onChangeText={email => this.setState({ email })}
            />
           </View>
 
         <View style={styles.inputContainer}>
-          <TextInput
-              style={styles.inputs}
-              placeholder="Parola"
-              secureTextEntry={true}
-              underlineColorAndroid='transparent'
-              maxLength={15}
-              onChangeText={text => this.setState({ password: text })}
-          />
+         <TextInput
+          style={styles.inputs}
+          returnKeyType='go'
+          placeholder="Password"
+          onChangeText={(password) =>  this.setState({ password })}/>
         </View>
+
        <TouchableOpacity
-         style={styles.loginButton}
+         style={[styles.loginButton,styles.loginText]}
          onPress={this.verify}
        >
          <Text style={styles.loginText}>Login</Text>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     borderRadius:3,
   },
   loginButton: {
-    backgroundColor: Colors.loginButtonColor,
+    backgroundColor: Colors.loginButtonBackgroundColor,
     color: Colors.loginButtonBackgroundColor,
     borderRadius: 3,
     width: wp('70%'),
