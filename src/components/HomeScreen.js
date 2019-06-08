@@ -13,6 +13,10 @@ import Colors from '../constants/colors';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class LoginView extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,31 +24,28 @@ export default class LoginView extends Component {
       password: '',
       emailCorrect: '',
     };
-
   }
 
   @boundMethod
   verify() {
-    if(this.state.password.length<3)
-       Alert.alert("password too short");
-
-    if(this.validate(this.state.email)){
-      Alert.alert("email ok");
+    if(this.state.password.length<3) {
+      Alert.alert("password too short");
+      return;
     }
+
+    if(this.validate(this.state.email))
+         this.props.navigation.navigate('WelcomeScreen');
     else
-      Alert.alert("email wrong format");
+      Alert.alert("email wrong format")
 
   };
 
   validate = (val) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(!reg.test(val))
-    {
       return false;
-    }
-    else {
+    else
       return true;
-    }
   };
 
   render() {
@@ -64,6 +65,8 @@ export default class LoginView extends Component {
          <TextInput
           style={styles.inputs}
           returnKeyType='go'
+          secureTextEntry={true}
+          password={true}
           placeholder="Password"
           onChangeText={(password) =>  this.setState({ password })}/>
         </View>

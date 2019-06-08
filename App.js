@@ -6,10 +6,11 @@ import {
 
 import Colors from './src/constants/colors'
 import HomeScreen from './src/components/HomeScreen';
-import DetailsScreen from './src/components/DetailsScreen';
+import WelcomeScreen from './src/components/WelcomeScreen';
+
 const RootStack = createStackNavigator({
         Home: HomeScreen,
-        Details: DetailsScreen,
+        WelcomeScreen: WelcomeScreen,
     }, {
         initialRouteName: 'Home',
         navigationOptions: {
