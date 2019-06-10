@@ -33,19 +33,18 @@ export default class LoginView extends Component {
       return;
     }
 
-    if(this.validate(this.state.email))
-         this.props.navigation.navigate('WelcomeScreen');
-    else
+    if(this.validate(this.state.email)) {
+      this.props.navigation.navigate('WelcomeScreen');
+    }
+    else {
       Alert.alert("email wrong format")
+    }
 
   };
 
   validate = (val) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if(!reg.test(val))
-      return false;
-    else
-      return true;
+    return reg.test(val);
   };
 
   render() {
