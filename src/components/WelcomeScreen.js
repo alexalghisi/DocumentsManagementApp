@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import Table from './Table';
 
 class WelcomeScreen extends Component {
@@ -9,12 +9,23 @@ class WelcomeScreen extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={styles.container} >
         <Table/>
-        <Text>Welcome</Text>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginVertical: 20,
+    margin: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginBottom: 40,
+    alignItems: 'center',
+  }
+});
 
 export default WelcomeScreen;
