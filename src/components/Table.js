@@ -48,7 +48,7 @@ class Table extends Component {
       return (<View style={[styles.item, styles.itemInvisible]} >
           <Image
           style={{width: width }}
-          source={require('../images/mecanic.jpg')}
+          source={require('../images/mechanic.jpg')}
         /></View>);
     }
     return (
@@ -68,7 +68,7 @@ class Table extends Component {
       <View style={styles.viewContainer} >
         <Image
           style={{width: width, height:80 }}
-          source={require('../images/mecanic.jpg')}
+          source={require('../images/mechanic.jpg')}
         />
         <Text style={styles.typeTextStyle}>{this.state.obj.type}</Text>
         <Text style={styles.expireTextStyle}>{this.state.obj.expire}</Text>
