@@ -11,6 +11,9 @@ const data = [
   { key: '2', type:'rca', expire:' 21-12-2012'},
   { key: '3', type:'rca', expire:' 21-12-2012'},
   { key: '4', type:'rca', expire:' 21-12-2012'},
+  { key: '5', type:'rca', expire:' 21-12-2012'},
+  { key: '6', type:'rca', expire:' 21-12-2012'},
+  { key: '7', type:'rca', expire:' 21-12-2012'},
 ];
 
 const formatData = (data, numColumns) => {
@@ -24,54 +27,40 @@ const formatData = (data, numColumns) => {
   return data;
 };
 
-const numColumns = 4;
+const numColumns = 3;
 class Table extends Component {
   constructor(props) {
     super(props);
-    this.obj =
-    {
-      key: 1, type: 'asig', expire: '21-12-2012'
-    };
-
     this.state = {
-       obj: this.obj,
+      data:data,
     };
-
   }
 
-  renderItem = ( item ) => {
-    //console.log(typeof item);
-    console.log("item=>", typeof this.state.obj.type);
-    console.log(typeof item.item.type.toString());
-    console.log(this.state.obj.type.toString());
-    if (item.empty === true && item.item.type.toString() === this.state.obj.type.toString()) {
-      return (<View style={[styles.item, styles.itemInvisible]} >
-          <Image
-          style={{width: width }}
-          source={require('../images/mechanic.jpg')}
-        /></View>);
+  renderItem = ({ item, index }) => {
+    if (item.empty === true) {
+      return <View style={[styles.item, styles.itemInvisible]} />;
     }
     return (
       <View
         style={styles.item}
       >
-        <Text style={styles.itemText}>{item.key}</Text>
+        <Image
+          style={{width: '100%', height: '70%' }}
+          source={require('../images/mechanic.jpg')}
+        />
+        <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
+        <Text style={[styles.itemText, styles.dateTextStyle]}>{item.expire}</Text>
       </View>
     );
   };
-
   @boundMethod
   render(){
-    console.log(this.state.obj);
-    Object.keys(this.state.obj).map((d,key) => console.log(d, key));
     return (
       <View style={styles.viewContainer} >
         <Image
           style={{width: width, height:80 }}
           source={require('../images/mechanic.jpg')}
         />
-        <Text style={styles.typeTextStyle}>{this.state.obj.type}</Text>
-        <Text style={styles.expireTextStyle}>{this.state.obj.expire}</Text>
         <FlatList
           data={formatData(data, numColumns)}
           style={styles.container}
@@ -93,12 +82,12 @@ const styles = StyleSheet.create({
   },
   typeTextStyle:
   {
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
-  expireTextStyle: {
+  dateTextStyle: {
     fontSize: 16,
-    textAlign: 'center',
   },
   item: {
     backgroundColor: Colors.cardBackgroundColor,
