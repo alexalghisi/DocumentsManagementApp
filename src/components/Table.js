@@ -7,10 +7,10 @@ let height = Dimensions.get('window').height; //full height
 
 import Colors from '../constants/colors';
 const data = [
-  { key: '1', type: 'expire', expire: '21-12-2012' },
+  { key: '1', type: 'ITP', expire: '21-12-2012' },
   { key: '2', type:'rca', expire:' 21-12-2012'},
   { key: '3', type:'rca', expire:' 21-12-2012'},
-  { key: '4', type:'rca', expire:' 21-12-2012'},
+  { key: '4', type:'taxa de drum', expire:' 21-12-2012'},
   { key: '5', type:'rca', expire:' 21-12-2012'},
   { key: '6', type:'rca', expire:' 21-12-2012'},
   { key: '7', type:'rca', expire:' 21-12-2012'},
