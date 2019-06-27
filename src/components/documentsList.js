@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, FlatList, Dimensions, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Dimensions as ScreenDimensions, Image } from 'react-native';
 import boundMethod from 'autobind-decorator';
+import Dimensions from '../constants/dimensions';
 
-let width = Dimensions.get('window').width; //full width
-let height = Dimensions.get('window').height; //full height
+let width = ScreenDimensions.get('window').width;
+
+const rcaImageuri =  'https://gdb.rferl.org/DE8BE3A3-E1D5-4C0F-B9DC-AB4A92A23B06_cx0_cy9_cw0_w1023_r1_s.png';
+const headerImageUri =  'https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg';
 
 import Colors from '../constants/colors';
 const data = [
-  { key: '1', type: 'ITP', expire: '21-12-2012' },
-  { key: '2', type:'rca', expire:' 21-12-2012'},
-  { key: '3', type:'rca', expire:' 21-12-2012'},
-  { key: '4', type:'taxa de drum', expire:' 21-12-2012'},
-  { key: '5', type:'rca', expire:' 21-12-2012'},
-  { key: '6', type:'rca', expire:' 21-12-2012'},
-  { key: '7', type:'rca', expire:' 21-12-2012'},
+  { key: '1', uri: rcaImageuri, type: 'ITP', expire: '21-12-2012' },
+  { key: '2', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
+  { key: '3', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
+  { key: '4', uri: rcaImageuri , type:'taxa de drum', expire:' 21-12-2012'},
+  { key: '5', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
+  { key: '6', uri: rcaImageuri , type:'rca', expire:' 21-12-2012'},
+  { key: '7', uri: rcaImageuri  , type:'rca', expire:' 21-12-2012'}
 ];
 
 const formatData = (data, numColumns) => {
@@ -28,11 +31,11 @@ const formatData = (data, numColumns) => {
 };
 
 const numColumns = 3;
-class Table extends Component {
+class DocumentsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data:data,
+      data: data,
     };
   }
 
@@ -46,7 +49,7 @@ class Table extends Component {
       >
         <Image
           style={{width: '100%', height: '70%' }}
-          source={require('../images/mechanic.jpg')}
+          source={{ uri: item.uri }}
         />
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
         <Text style={[styles.itemText, styles.dateTextStyle]}>{item.expire}</Text>
@@ -58,8 +61,8 @@ class Table extends Component {
     return (
       <View style={styles.viewContainer} >
         <Image
-          style={{width: width, height:80 }}
-          source={require('../images/mechanic.jpg')}
+          style={styles.headerImage}
+          source={{uri: headerImageUri}}
         />
         <FlatList
           data={formatData(data, numColumns)}
@@ -77,17 +80,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.containerBackgroundColor,
   },
+  headerImage: {
+      height: 80,
+      width: width,
+      marginBottom: Dimensions.marginBottom,
+  },
   viewContainer: {
     backgroundColor: Colors.containerBackgroundColor
   },
   typeTextStyle:
   {
-    fontSize: 18,
+    fontSize: Dimensions.primaryFontSize,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   dateTextStyle: {
-    fontSize: 16,
+    fontSize: Dimensions.secondaryFontSize,
   },
   item: {
     backgroundColor: Colors.cardBackgroundColor,
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 1,
     borderRadius: 3,
-    height: Dimensions.get('window').width / numColumns,
+    height: ScreenDimensions.get('window').width / numColumns,
   },
   itemInvisible: {
     backgroundColor: 'transparent',
@@ -106,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Table;
+export default DocumentsList;

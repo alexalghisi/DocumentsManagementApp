@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet} from 'react-native';
-import Table from './Table';
+import DocumentsList from './documentsList';
+import Dimensions from '../constants/dimensions';
 
 class WelcomeScreen extends Component {
   static navigationOptions = {
@@ -10,7 +11,7 @@ class WelcomeScreen extends Component {
   render() {
     return (
       <View style={styles.container} >
-        <Table/>
+        <DocumentsList/>
       </View>
     );
   }
@@ -18,12 +19,12 @@ class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20,
+    marginVertical: Dimensions.headerTopMargin,
     margin: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 10,
-    marginBottom: 40,
+    padding: Dimensions.padding,
+    marginBottom: Dimensions.marginBottom,
     alignItems: 'center',
   }
 });
