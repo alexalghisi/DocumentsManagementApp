@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, FlatList, Dimensions as ScreenDimensions, Image } from 'react-native';
 import boundMethod from 'autobind-decorator';
 import Dimensions from '../constants/dimensions';
+import Colors from '../constants/colors';
 
 let width = ScreenDimensions.get('window').width;
 
 const rcaImageuri =  'https://gdb.rferl.org/DE8BE3A3-E1D5-4C0F-B9DC-AB4A92A23B06_cx0_cy9_cw0_w1023_r1_s.png';
 const headerImageUri =  'https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg';
 
-import Colors from '../constants/colors';
 const data = [
   { key: '1', uri: rcaImageuri, type: 'ITP', expire: '21-12-2012' },
   { key: '2', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
@@ -31,10 +31,6 @@ const formatData = (data, numColumns) => {
 };
 
 class DocumentsList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderItem = ({ item, index }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
@@ -107,7 +103,6 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 1,
     borderRadius: 3,
-    height: ScreenDimensions.get('window').width / 3,
   },
   itemInvisible: {
     backgroundColor: 'transparent',
