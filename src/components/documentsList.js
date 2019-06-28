@@ -30,13 +30,9 @@ const formatData = (data, numColumns) => {
   return data;
 };
 
-const numColumns = 3;
 class DocumentsList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: data,
-    };
   }
 
   renderItem = ({ item, index }) => {
@@ -56,8 +52,11 @@ class DocumentsList extends Component {
       </View>
     );
   };
+
   @boundMethod
   render(){
+    const { numColumns } = this.props;
+
     return (
       <View style={styles.viewContainer} >
         <Image
@@ -74,6 +73,10 @@ class DocumentsList extends Component {
       );
   }
 }
+
+DocumentsList.defaultProps =  {
+  numColumns: 3,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 1,
     borderRadius: 3,
-    height: ScreenDimensions.get('window').width / numColumns,
+    height: ScreenDimensions.get('window').width / 3,
   },
   itemInvisible: {
     backgroundColor: 'transparent',
