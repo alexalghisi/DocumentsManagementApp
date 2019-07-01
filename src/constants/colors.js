@@ -5,4 +5,7 @@ export default {
   inputBackgroundColor: '#FFFFFF',
   loginButtonBackgroundColor: '#3578e5',
   loginTextColor: '#FFFFFF',
+  cardBackgroundColor: '#FFFFFF',
+  textColor: '#222',
+  containerBackgroundColor: '#e9ebee',
 };
