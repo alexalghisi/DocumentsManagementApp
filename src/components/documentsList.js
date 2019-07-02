@@ -3,34 +3,41 @@ import {StyleSheet, Text, View, FlatList, Dimensions as ScreenDimensions, Image 
 import boundMethod from 'autobind-decorator';
 import Dimensions from '../constants/dimensions';
 import Colors from '../constants/colors';
+import { db } from '../config';
+
+let itemsRef = db.ref('/items');
 
 let width = ScreenDimensions.get('window').width;
 
 const rcaImageuri =  'https://gdb.rferl.org/DE8BE3A3-E1D5-4C0F-B9DC-AB4A92A23B06_cx0_cy9_cw0_w1023_r1_s.png';
 const headerImageUri =  'https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg';
 
-const data = [
-  { key: '1', uri: rcaImageuri, type: 'ITP', expire: '21-12-2012' },
-  { key: '2', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
-  { key: '3', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
-  { key: '4', uri: rcaImageuri , type:'taxa de drum', expire:' 21-12-2012'},
-  { key: '5', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
-  { key: '6', uri: rcaImageuri , type:'rca', expire:' 21-12-2012'},
-  { key: '7', uri: rcaImageuri  , type:'rca', expire:' 21-12-2012'}
-];
-
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
 
-  let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
-  while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-    numberOfElementsLastRow++;
+  for(let index=0;index<data.length;++index) {
+    data[index].key = index;
+    data[index].uri = rcaImageuri;
   }
   return data;
 };
 
 class DocumentsList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+    }
+  }
+
+  componentDidMount() {
+    this.items = itemsRef.once('value', snapshot => {
+      let data = snapshot.val();
+      let items = Object.values(data);
+      this.setState({ items });
+    });
+  }
+
   renderItem = ({ item, index }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
@@ -50,23 +57,30 @@ class DocumentsList extends Component {
   };
 
   @boundMethod
-  render(){
+  render() {
     const { numColumns } = this.props;
+    const { items } = this.state;
 
     return (
       <View style={styles.viewContainer} >
+        {items.length > 0 ?
+          (
+            console.log(items)
+          ) :
+           console.log(items)
+        }
         <Image
           style={styles.headerImage}
           source={{uri: headerImageUri}}
         />
         <FlatList
-          data={formatData(data, numColumns)}
+          data={formatData(items, numColumns)}
           style={styles.container}
           renderItem={this.renderItem}
           numColumns={numColumns}
         />
       </View>
-      );
+    );
   }
 }
 
