@@ -58,6 +58,7 @@ class DocumentsList extends Component {
 
   // Render function used by FlatList.
   renderItem = ( item ) => {
+    item = item.item;
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.secondaryFontSize
   },
   item: {
+    height: 150,
     backgroundColor: Colors.cardBackgroundColor,
     alignItems: "center",
     justifyContent: "center",
