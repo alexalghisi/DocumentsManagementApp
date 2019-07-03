@@ -1,23 +1,40 @@
-import React, { Component } from 'react';
-import {StyleSheet, Text, View, FlatList, Dimensions as ScreenDimensions, Image } from 'react-native';
-import boundMethod from 'autobind-decorator';
-import Dimensions from '../constants/dimensions';
-import Colors from '../constants/colors';
-import { db } from '../config';
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Dimensions as ScreenDimensions,
+  Image
+} from "react-native";
+import boundMethod from "autobind-decorator";
+import Dimensions from "../constants/dimensions";
+import Colors from "../constants/colors";
+import { db } from "../config";
 
-let itemsRef = db.ref('/items');
+let itemsRef = db.ref("/data");
 
-let width = ScreenDimensions.get('window').width;
+let width = ScreenDimensions.get("window").width;
 
-const rcaImageuri =  'https://gdb.rferl.org/DE8BE3A3-E1D5-4C0F-B9DC-AB4A92A23B06_cx0_cy9_cw0_w1023_r1_s.png';
-const headerImageUri =  'https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg';
+const headerImageUri =
+  "https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg";
 
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
 
-  for(let index=0;index<data.length;++index) {
+  // Add the mandatory key for each item
+  // displayed in the FlatList.
+  for (let index = 0; index < data.length; ++index) {
     data[index].key = index;
-    data[index].uri = rcaImageuri;
+  }
+
+  let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+  while (
+    numberOfElementsLastRow !== numColumns &&
+    numberOfElementsLastRow !== 0
+  ) {
+    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
+    numberOfElementsLastRow++;
   }
   return data;
 };
@@ -26,32 +43,35 @@ class DocumentsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
-    }
+      items: []
+    };
   }
 
+  // Fetch data from Firebase.
   componentDidMount() {
-    this.items = itemsRef.once('value', snapshot => {
+    itemsRef.once("value", snapshot => {
       let data = snapshot.val();
       let items = Object.values(data);
       this.setState({ items });
     });
   }
 
-  renderItem = ({ item, index }) => {
+  // Render function used by FlatList.
+  renderItem = ( item ) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
+
     return (
-      <View
-        style={styles.item}
-      >
+      <View style={styles.item}>
         <Image
-          style={{width: '100%', height: '70%' }}
-          source={{ uri: item.uri }}
+          style={{ width: "100%", height: "70%" }}
+          source={{ uri: item.imageURI }}
         />
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
-        <Text style={[styles.itemText, styles.dateTextStyle]}>{item.expire}</Text>
+        <Text style={[styles.itemText, styles.dateTextStyle]}>
+          {item.expire}
+        </Text>
       </View>
     );
   };
@@ -62,17 +82,9 @@ class DocumentsList extends Component {
     const { items } = this.state;
 
     return (
-      <View style={styles.viewContainer} >
-        {items.length > 0 ?
-          (
-            console.log(items)
-          ) :
-           console.log(items)
-        }
-        <Image
-          style={styles.headerImage}
-          source={{uri: headerImageUri}}
-        />
+      <View style={styles.viewContainer}>
+        {items.length > 0 ? console.log(items) : console.log(items)}
+        <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
         <FlatList
           data={formatData(items, numColumns)}
           style={styles.container}
@@ -84,46 +96,45 @@ class DocumentsList extends Component {
   }
 }
 
-DocumentsList.defaultProps =  {
-  numColumns: 3,
+DocumentsList.defaultProps = {
+  numColumns: 3
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.containerBackgroundColor,
+    backgroundColor: Colors.containerBackgroundColor
   },
   headerImage: {
-      height: 80,
-      width: width,
-      marginBottom: Dimensions.marginBottom,
+    height: 80,
+    width: width,
+    marginBottom: Dimensions.marginBottom
   },
   viewContainer: {
     backgroundColor: Colors.containerBackgroundColor
   },
-  typeTextStyle:
-  {
+  typeTextStyle: {
     fontSize: Dimensions.primaryFontSize,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center"
   },
   dateTextStyle: {
-    fontSize: Dimensions.secondaryFontSize,
+    fontSize: Dimensions.secondaryFontSize
   },
   item: {
     backgroundColor: Colors.cardBackgroundColor,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     flex: 1,
     margin: 1,
-    borderRadius: 3,
+    borderRadius: 3
   },
   itemInvisible: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent"
   },
   itemText: {
-    color: Colors.textColor,
-  },
+    color: Colors.textColor
+  }
 });
 
 export default DocumentsList;
