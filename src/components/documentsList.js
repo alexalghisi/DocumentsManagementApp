@@ -39,25 +39,49 @@ const formatData = (data, numColumns) => {
   return data;
 };
 
+const higherOrderComponent = WrappedComponent => {
+  class HOC extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { items: [] };
+    }
+
+    getFirebaseData() {
+      console.log("getting data");
+      itemsRef.once("value", snapshot => {
+        let data = snapshot.val();
+        this.setState({ items: Object.values(data) });
+      });
+    }
+
+    render() {
+      const { items, data } = this.state;
+
+      return (
+        <WrappedComponent
+          {...this.props}
+          getFirebaseData={this.getFirebaseData.bind(this)}
+          items={this.state.items}
+        />
+      );
+    }
+  }
+
+  return HOC;
+};
+
 class DocumentsList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: []
-    };
   }
 
   // Fetch data from Firebase.
   componentDidMount() {
-    itemsRef.once("value", snapshot => {
-      let data = snapshot.val();
-      let items = Object.values(data);
-      this.setState({ items });
-    });
+    this.props.getFirebaseData();
   }
 
   // Render function used by FlatList.
-  renderItem = ( item ) => {
+  renderItem = item => {
     item = item.item;
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
@@ -80,18 +104,19 @@ class DocumentsList extends Component {
   @boundMethod
   render() {
     const { numColumns } = this.props;
-    const { items } = this.state;
+    const { items } = this.props;
 
     return (
       <View style={styles.viewContainer}>
-        {items.length > 0 ? console.log(items) : console.log(items)}
-        <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
-        <FlatList
-          data={formatData(items, numColumns)}
-          style={styles.container}
-          renderItem={this.renderItem}
-          numColumns={numColumns}
-        />
+        <React.Fragment>
+          <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
+          <FlatList
+            data={formatData(items, numColumns)}
+            style={styles.container}
+            renderItem={this.renderItem}
+            numColumns={numColumns}
+          />
+        </React.Fragment>
       </View>
     );
   }
@@ -139,4 +164,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DocumentsList;
+export default higherOrderComponent(DocumentsList);
