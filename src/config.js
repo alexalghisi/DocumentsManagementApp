@@ -1,13 +1,13 @@
 import Firebase from 'firebase';
 
 const config = {
-  apiKey: "AIzaSyCPmA6NTbVD7xFakN-NTVbVfxO5l3-PEXs",
-  authDomain: "coolapp-c6f53.firebaseapp.com",
-  databaseURL: "https://coolapp-c6f53.firebaseio.com",
-  projectId: "coolapp-c6f53",
-  storageBucket: "coolapp-c6f53.appspot.com",
-  messagingSenderId: "293356096567",
-  appId: "1:293356096567:web:2179fc497ab17325"
+  apiKey: "AIzaSyDKdEJ8scNUPpAdWASBnbwei7Uu5Y9vmVk",
+  authDomain: "my-project-1506330006740.firebaseapp.com",
+  databaseURL: "https://my-project-1506330006740.firebaseio.com",
+  projectId: "my-project-1506330006740",
+  storageBucket: "",
+  messagingSenderId: "20923554898",
+  appId: "1:20923554898:web:acdf7e0699b42fa4"
 };
 
 let app = Firebase.initializeApp(config);
