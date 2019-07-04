@@ -31,9 +31,9 @@ const getDocuments = (data, numColumns) => {
 
 
 
-const DocumentsList = () => {
+const DocumentsList = (props) => {
   // Fetch data from Firebase.
-  useEffect(() => {
+  React.useEffect(() => {
     props.getFirebaseData();
   });
 
@@ -59,8 +59,8 @@ const DocumentsList = () => {
   };
 
 
-  const { numColumns } = this.props;
-  const { items } = this.props;
+  const { numColumns } = props;
+  const { items } = props;
 
   return (
     <View style={styles.viewContainer}>
