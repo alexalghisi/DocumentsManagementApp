@@ -10,7 +10,7 @@ const withFireBase = WrappedComponent => {
       this.state = { items: [] };
     }
 
-    getFirebaseData() {
+    fetchData() {
       itemsRef.once("value", snapshot => {
         let data = snapshot.val();
         this.setState({ items: Object.values(data) });
@@ -21,7 +21,7 @@ const withFireBase = WrappedComponent => {
       return (
         <WrappedComponent
           {...this.props}
-          getFirebaseData={this.getFirebaseData.bind(this)}
+          getFirebaseData={this.fetchData.bind(this)}
           items={this.state.items}
         />
       );
