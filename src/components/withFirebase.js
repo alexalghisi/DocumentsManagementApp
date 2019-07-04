@@ -4,29 +4,24 @@ import { db } from "../config";
 let itemsRef = db.ref("/data");
 
 const withFireBase = WrappedComponent => {
-  class HOC extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { items: [] };
-    }
+  const HOC = (props) => {
+    const [ items ] = React.useState(0);
 
-    fetchData() {
+    const fetchData = () => {
       itemsRef.once("value", snapshot => {
         let data = snapshot.val();
         this.setState({ items: Object.values(data) });
       });
-    }
+    };
 
-    render() {
-      return (
-        <WrappedComponent
-          {...this.props}
-          getFirebaseData={this.fetchData.bind(this)}
-          items={this.state.items}
-        />
-      );
-    }
-  }
+    return (
+      <WrappedComponent
+        {...props}
+        getFirebaseData={fetchData}
+        items={items}
+      />
+    );
+  };
 
   return HOC;
 };
