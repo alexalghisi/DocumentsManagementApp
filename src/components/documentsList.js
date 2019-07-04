@@ -10,9 +10,7 @@ import {
 import boundMethod from "autobind-decorator";
 import Dimensions from "../constants/dimensions";
 import Colors from "../constants/colors";
-import { db } from "../config";
-
-let itemsRef = db.ref("/data");
+import withFireBase from "./withFirebase";
 
 let width = ScreenDimensions.get("window").width;
 
@@ -39,42 +37,9 @@ const formatData = (data, numColumns) => {
   return data;
 };
 
-const higherOrderComponent = WrappedComponent => {
-  class HOC extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { items: [] };
-    }
 
-    getFirebaseData() {
-      console.log("getting data");
-      itemsRef.once("value", snapshot => {
-        let data = snapshot.val();
-        this.setState({ items: Object.values(data) });
-      });
-    }
-
-    render() {
-      const { items, data } = this.state;
-
-      return (
-        <WrappedComponent
-          {...this.props}
-          getFirebaseData={this.getFirebaseData.bind(this)}
-          items={this.state.items}
-        />
-      );
-    }
-  }
-
-  return HOC;
-};
 
 class DocumentsList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   // Fetch data from Firebase.
   componentDidMount() {
     this.props.getFirebaseData();
@@ -164,4 +129,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default higherOrderComponent(DocumentsList);
+export default withFireBase(DocumentsList);
