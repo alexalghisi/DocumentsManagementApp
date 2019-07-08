@@ -1,115 +1,113 @@
-import React, { Component } from 'react';
-import {StyleSheet, Text, View, FlatList, Dimensions as ScreenDimensions, Image } from 'react-native';
-import boundMethod from 'autobind-decorator';
-import Dimensions from '../constants/dimensions';
-import Colors from '../constants/colors';
+import React, { useEffect } from "react";
+import { Text, View, FlatList, Image } from "react-native";
+import { Dimensions as ScreenDimensions, StyleSheet } from "react-native";
+import Colors from "../constants/colors";
+import Dimensions from "../constants/dimensions";
 
-let width = ScreenDimensions.get('window').width;
+import withFireBase from "./withFirebase";
 
-const rcaImageuri =  'https://gdb.rferl.org/DE8BE3A3-E1D5-4C0F-B9DC-AB4A92A23B06_cx0_cy9_cw0_w1023_r1_s.png';
-const headerImageUri =  'https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg';
+const headerImageUri =
+  "https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg";
 
-const data = [
-  { key: '1', uri: rcaImageuri, type: 'ITP', expire: '21-12-2012' },
-  { key: '2', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
-  { key: '3', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
-  { key: '4', uri: rcaImageuri , type:'taxa de drum', expire:' 21-12-2012'},
-  { key: '5', uri: rcaImageuri, type:'rca', expire:' 21-12-2012'},
-  { key: '6', uri: rcaImageuri , type:'rca', expire:' 21-12-2012'},
-  { key: '7', uri: rcaImageuri  , type:'rca', expire:' 21-12-2012'}
-];
-
-const formatData = (data, numColumns) => {
+const getDocuments = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
 
-  let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
-  while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-    numberOfElementsLastRow++;
+  // Add the mandatory key for each item
+  // displayed in the FlatList.
+  data.map((item, index) => (item.key = index));
+
+  let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+  if (numberOfElementsLastRow) {
+    while (numberOfElementsLastRow !== numColumns) {
+      data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
+      ++numberOfElementsLastRow;
+    }
   }
   return data;
 };
 
-class DocumentsList extends Component {
-  renderItem = ({ item, index }) => {
+const DocumentsList = props => {
+  // Fetch data from Firebase.
+  useEffect(() => {
+    props.fetchData();
+  }, []);
+
+  // Render function used by FlatList.
+  const renderItem =  ({ item })  => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
+
     return (
-      <View
-        style={styles.item}
-      >
-        <Image
-          style={{width: '100%', height: '70%' }}
-          source={{ uri: item.uri }}
-        />
+      <View style={styles.item}>
+        <Image style={styles.item} source={{ uri: item.imageURI }} />
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
-        <Text style={[styles.itemText, styles.dateTextStyle]}>{item.expire}</Text>
+        <Text style={[styles.itemText, styles.dateTextStyle]}>
+          {item.expire}
+        </Text>
       </View>
     );
   };
 
-  @boundMethod
-  render(){
-    const { numColumns } = this.props;
-
-    return (
-      <View style={styles.viewContainer} >
-        <Image
-          style={styles.headerImage}
-          source={{uri: headerImageUri}}
-        />
+  const { numColumns, items } = props;
+  return (
+    <View style={styles.viewContainer}>
+      <React.Fragment>
+        <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
         <FlatList
-          data={formatData(data, numColumns)}
+          data={getDocuments(items, numColumns)}
           style={styles.container}
-          renderItem={this.renderItem}
+          renderItem={renderItem}
           numColumns={numColumns}
         />
-      </View>
-      );
-  }
-}
-
-DocumentsList.defaultProps =  {
-  numColumns: 3,
+      </React.Fragment>
+    </View>
+  );
 };
+
+let width = ScreenDimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.containerBackgroundColor,
+    backgroundColor: Colors.containerBackgroundColor
   },
   headerImage: {
-      height: 80,
-      width: width,
-      marginBottom: Dimensions.marginBottom,
+    height: 80,
+    width: width,
+    marginBottom: Dimensions.marginBottom
   },
   viewContainer: {
     backgroundColor: Colors.containerBackgroundColor
   },
-  typeTextStyle:
-  {
+  typeTextStyle: {
     fontSize: Dimensions.primaryFontSize,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center"
   },
   dateTextStyle: {
-    fontSize: Dimensions.secondaryFontSize,
+    fontSize: Dimensions.secondaryFontSize
   },
   item: {
+    height: 150,
+    width: 100,
     backgroundColor: Colors.cardBackgroundColor,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     flex: 1,
     margin: 1,
-    borderRadius: 3,
+    borderRadius: 3
   },
   itemInvisible: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent"
   },
   itemText: {
-    color: Colors.textColor,
-  },
+    color: Colors.textColor
+  }
 });
 
-export default DocumentsList;
+DocumentsList.defaultProps = {
+  numColumns: 3
+};
+
+export default withFireBase(DocumentsList);

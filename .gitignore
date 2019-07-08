@@ -55,3 +55,6 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 yarn.lock
+.eslintrc.js
+ios/HelloWorld.xcworkspace/
+ios/Podfile
