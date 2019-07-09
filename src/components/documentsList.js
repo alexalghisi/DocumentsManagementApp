@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Text, View, FlatList, Image } from "react-native";
-import { Dimensions as ScreenDimensions, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, FlatList, Image, TouchableOpacity } from "react-native";
+import { Dimensions as ScreenDimensions, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
@@ -28,15 +28,16 @@ const getDocuments = (data, numColumns) => {
   return data;
 };
 
-const DocumentsList = props => {
+
+
+const DocumentsList = (props) => {
   // Fetch data from Firebase.
   useEffect(() => {
-    props.getFirebaseData();
+    props.fetchData();
   }, []);
 
   // Render function used by FlatList.
-  const renderItem = item => {
-    item = item.item;
+  const renderItem =  ({ item })  => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
@@ -60,7 +61,6 @@ const DocumentsList = props => {
     );
   };
 
-
   const { numColumns, items } = props;
   return (
     <View style={styles.viewContainer}>
@@ -75,6 +75,7 @@ const DocumentsList = props => {
       </React.Fragment>
     </View>
   );
+
 };
 
 DocumentsList.defaultProps = {

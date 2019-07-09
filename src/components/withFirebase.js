@@ -1,35 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { db } from "../config";
 
 let itemsRef = db.ref("/data");
 
 const withFireBase = WrappedComponent => {
-  class HOC extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { items: [] };
-    }
+    const FirebaseConnector = (props) => {
+      const [ data, setData ] = useState([]);
 
-    fetchData() {
-      itemsRef.once("value", snapshot => {
-        let data = snapshot.val();
-        this.setState({ items: Object.values(data) });
-      });
-    }
+        const fetchData = () => {
+          itemsRef.once("value", snapshot => {
+            const items = snapshot.val();
+            setData(Object.values(items));
+            return items;
+          });
+        };
 
-    render() {
-      return (
-        <WrappedComponent
-          {...this.props}
-          getFirebaseData={this.fetchData.bind(this)}
-          items={this.state.items}
-        />
-      );
-    }
-  }
+        return (
+            <WrappedComponent
+                {...props}
+                fetchData={fetchData}
+                items={data}
+            />
+        );
+    };
 
-  return HOC;
+    return FirebaseConnector;
 };
 
 export default withFireBase;
-
