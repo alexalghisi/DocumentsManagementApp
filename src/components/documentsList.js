@@ -48,8 +48,7 @@ const DocumentsList = (props) => {
             style={styles.item}
             onPress={() => {
             props.navigation.navigate(  "ITP",
-              { name: 'Brent'}
-            );
+              { props, type: item.type, imageURI: item.imageURI, expire: item.expire });
           }}>
           <Image style={styles.item} source={{ uri: item.imageURI }} />
         </TouchableOpacity>
