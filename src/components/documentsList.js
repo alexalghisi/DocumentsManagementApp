@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  FlatList,
-  Image
-} from "react-native";
-import styles from '../styles/documentListStyles';
+import React, { useEffect } from "react";
+import { Text, View, FlatList, Image } from "react-native";
+import { Dimensions as ScreenDimensions, StyleSheet, TouchableOpacity } from "react-native";
+import Colors from "../constants/colors";
+import Dimensions from "../constants/dimensions";
+
 import withFireBase from "./withFirebase";
+
+const width = ScreenDimensions.get("window").width;
 
 const headerImageUri =
   "https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg";
@@ -16,26 +16,23 @@ const getDocuments = (data, numColumns) => {
 
   // Add the mandatory key for each item
   // displayed in the FlatList.
-  data.map((item, index) => item.key=index);
+  data.map((item, index) => (item.key = index));
 
   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
-  while (
-    numberOfElementsLastRow !== numColumns &&
-    numberOfElementsLastRow !== 0
-  ) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-    numberOfElementsLastRow++;
+  if (numberOfElementsLastRow) {
+    while (numberOfElementsLastRow !== numColumns) {
+      data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
+      ++numberOfElementsLastRow;
+    }
   }
   return data;
 };
 
-
-
-const DocumentsList = (props) => {
+const DocumentsList = props => {
   // Fetch data from Firebase.
-  React.useEffect(() => {
+  useEffect(() => {
     props.getFirebaseData();
-  });
+  }, []);
 
   // Render function used by FlatList.
   const renderItem = item => {
@@ -46,10 +43,15 @@ const DocumentsList = (props) => {
 
     return (
       <View style={styles.item}>
-        <Image
-          style={{ width: "100%", height: "70%" }}
-          source={{ uri: item.imageURI }}
-        />
+        <TouchableOpacity
+            style={styles.item}
+            onPress={() => {
+            props.navigation.navigate(  "ITP",
+              { name: 'Brent'}
+            );
+          }}>
+          <Image style={styles.item} source={{ uri: item.imageURI }} />
+        </TouchableOpacity>
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
         <Text style={[styles.itemText, styles.dateTextStyle]}>
           {item.expire}
@@ -59,9 +61,7 @@ const DocumentsList = (props) => {
   };
 
 
-  const { numColumns } = props;
-  const { items } = props;
-
+  const { numColumns, items } = props;
   return (
     <View style={styles.viewContainer}>
       <React.Fragment>
@@ -75,11 +75,49 @@ const DocumentsList = (props) => {
       </React.Fragment>
     </View>
   );
-
 };
 
 DocumentsList.defaultProps = {
   numColumns: 3
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.containerBackgroundColor
+  },
+  headerImage: {
+    height: 80,
+    width: width,
+    marginBottom: Dimensions.marginBottom
+  },
+  viewContainer: {
+    backgroundColor: Colors.containerBackgroundColor
+  },
+  typeTextStyle: {
+    fontSize: Dimensions.primaryFontSize,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  dateTextStyle: {
+    fontSize: Dimensions.secondaryFontSize
+  },
+  item: {
+    height: 150,
+    width: 100,
+    backgroundColor: Colors.cardBackgroundColor,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    margin: 1,
+    borderRadius: 3
+  },
+  itemInvisible: {
+    backgroundColor: "transparent"
+  },
+  itemText: {
+    color: Colors.textColor
+  }
+});
 
 export default withFireBase(DocumentsList);
