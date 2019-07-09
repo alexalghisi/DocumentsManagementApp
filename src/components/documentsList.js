@@ -28,16 +28,14 @@ const getDocuments = (data, numColumns) => {
   return data;
 };
 
-
-
-const DocumentsList = (props) => {
+const DocumentsList = props => {
   // Fetch data from Firebase.
   useEffect(() => {
     props.fetchData();
   }, []);
 
   // Render function used by FlatList.
-  const renderItem =  ({ item })  => {
+  const renderItem = ({ item }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
@@ -45,11 +43,16 @@ const DocumentsList = (props) => {
     return (
       <View style={styles.item}>
         <TouchableOpacity
-            style={styles.item}
-            onPress={() => {
-            props.navigation.navigate(  "ITP",
-              { props, type: item.type, imageURI: item.imageURI, expire: item.expire });
-          }}>
+          style={styles.item}
+          onPress={() => {
+            props.navigation.navigate("DocumentAuto", {
+              props,
+              type: item.type,
+              imageURI: item.imageURI,
+              expire: item.expire
+            });
+          }}
+        >
           <Image style={styles.item} source={{ uri: item.imageURI }} />
         </TouchableOpacity>
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
@@ -74,7 +77,6 @@ const DocumentsList = (props) => {
       </React.Fragment>
     </View>
   );
-
 };
 
 DocumentsList.defaultProps = {

@@ -7,12 +7,12 @@ import {
 import Colors from './src/constants/colors'
 import HomeScreen from './src/components/HomeScreen';
 import WelcomeScreen from './src/components/WelcomeScreen';
-import ITP from './src/screens/ITP';
+import DocumentAuto from './src/screens/DocumentAuto';
 
 const RootStack = createStackNavigator({
         Home: HomeScreen,
-        WelcomeScreen: WelcomeScreen,
-        ITP: ITP,
+        WelcomeScreen,
+        DocumentAuto,
     }, {
         initialRouteName: 'Home',
         navigationOptions: {

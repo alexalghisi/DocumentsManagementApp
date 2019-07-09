@@ -4,7 +4,7 @@ import { withNavigation } from 'react-navigation';
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
-const ITP  = props =>
+const DocumentAuto  = props =>
 {
   const type = props.navigation.getParam("type");
   const expire = props.navigation.getParam("expire");
@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   item: {
     height: 100,
     width: 300,
-    margin: 0.5,
     backgroundColor: Colors.cardBackgroundColor,
     resizeMode: 'contain',
     flexDirection: "row"
@@ -45,4 +44,4 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.secondaryFontSize
   },
 });
-export default withNavigation(ITP);
+export default withNavigation(DocumentAuto);
