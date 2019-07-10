@@ -10,9 +10,7 @@ const DocumentAuto  = props =>
   const expire = props.navigation.getParam("expire");
   const imageURI = props.navigation.getParam("imageURI");
   return <View style={styles.container}>
-    <Text style={{color:'blue'}}>
-      <Image style={styles.item} source={{ uri: imageURI }} />
-      </Text>
+      <Image style={styles.cardStyle} source={{ uri: imageURI }} />
       <Text style={styles.typeTextStyle}>
            {type}
        </Text>
@@ -23,9 +21,9 @@ const DocumentAuto  = props =>
 };
 
 const styles = StyleSheet.create({
-  item: {
-    height: 100,
-    width: 300,
+  cardStyle: {
+    height: Dimensions.cardHeight,
+    width: Dimensions.cardWidth,
     backgroundColor: Colors.cardBackgroundColor,
     resizeMode: 'contain',
     flexDirection: "row"
@@ -43,5 +41,8 @@ const styles = StyleSheet.create({
   dateTextStyle: {
     fontSize: Dimensions.secondaryFontSize
   },
+  textStyle: {
+    color: Colors.blue,
+  }
 });
 export default withNavigation(DocumentAuto);

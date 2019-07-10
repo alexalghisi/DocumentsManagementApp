@@ -28,6 +28,14 @@ const getDocuments = (data, numColumns) => {
   return data;
 };
 
+const navigateToScreen = (props, route, item) => {
+  props.navigation.navigate(route, {
+    type: item.type,
+    imageURI: item.imageURI,
+    expire: item.expire
+  });
+};
+
 const DocumentsList = props => {
   // Fetch data from Firebase.
   useEffect(() => {
@@ -44,21 +52,14 @@ const DocumentsList = props => {
       <View style={styles.item}>
         <TouchableOpacity
           style={styles.item}
-          onPress={() => {
-            props.navigation.navigate("DocumentAuto", {
-              props,
-              type: item.type,
-              imageURI: item.imageURI,
-              expire: item.expire
-            });
-          }}
+          onPress={() => navigateToScreen(props, "DocumentAuto", item)}
         >
           <Image style={styles.item} source={{ uri: item.imageURI }} />
+          <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
+          <Text style={[styles.itemText, styles.dateTextStyle]}>
+            {item.expire}
+          </Text>
         </TouchableOpacity>
-        <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
-        <Text style={[styles.itemText, styles.dateTextStyle]}>
-          {item.expire}
-        </Text>
       </View>
     );
   };

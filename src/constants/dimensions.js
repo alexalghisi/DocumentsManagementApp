@@ -5,4 +5,6 @@ export default {
   headerTopMargin: 20,
   marginBottom: 40,
   padding: 10,
+  cardWidth: 300,
+  cardHeight: 100,
 }
