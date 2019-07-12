@@ -48,7 +48,7 @@ const DocumentsList = props => {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
 
-    return (
+    return(
       <View style={styles.item}>
         <TouchableOpacity
           style={styles.item}
@@ -61,7 +61,7 @@ const DocumentsList = props => {
           </Text>
         </TouchableOpacity>
       </View>
-    );
+    )
   };
 
   const { numColumns, items } = props;
@@ -75,6 +75,21 @@ const DocumentsList = props => {
           renderItem={renderItem}
           numColumns={numColumns}
         />
+         <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={this.addItem}
+          style={styles.TouchableOpacityStyle}>
+          <Image
+            //We are making FAB using TouchableOpacity with an image
+            //We are using online image here
+             source={{
+uri:'https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png',
+            }}
+            //You can use you project image Example below
+            //source={require('./images/float-add-icon.png')}
+            style={styles.FloatingButtonStyle}
+          />
+        </TouchableOpacity>
       </React.Fragment>
     </View>
   );
@@ -120,6 +135,22 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: Colors.textColor
+  },
+  TouchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 30,
+  },
+
+  FloatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
+    //backgroundColor:'black'
   }
 });
 
