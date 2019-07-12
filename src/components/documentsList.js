@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Text, View, FlatList, Image } from "react-native";
+import { Text, View, FlatList, Image, TouchableOpacity } from "react-native";
 import { Dimensions as ScreenDimensions, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
 import withFireBase from "./withFirebase";
+
+const width = ScreenDimensions.get("window").width;
 
 const headerImageUri =
   "https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg";
@@ -26,6 +28,14 @@ const getDocuments = (data, numColumns) => {
   return data;
 };
 
+const navigateToScreen = (props, route, item) => {
+  props.navigation.navigate(route, {
+    type: item.type,
+    imageURI: item.imageURI,
+    expire: item.expire
+  });
+};
+
 const DocumentsList = props => {
   // Fetch data from Firebase.
   useEffect(() => {
@@ -33,18 +43,23 @@ const DocumentsList = props => {
   }, []);
 
   // Render function used by FlatList.
-  const renderItem =  ({ item })  => {
+  const renderItem = ({ item }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
 
     return (
       <View style={styles.item}>
-        <Image style={styles.item} source={{ uri: item.imageURI }} />
-        <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
-        <Text style={[styles.itemText, styles.dateTextStyle]}>
-          {item.expire}
-        </Text>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigateToScreen(props, "DocumentAuto", item)}
+        >
+          <Image style={styles.item} source={{ uri: item.imageURI }} />
+          <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
+          <Text style={[styles.itemText, styles.dateTextStyle]}>
+            {item.expire}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -65,7 +80,9 @@ const DocumentsList = props => {
   );
 };
 
-let width = ScreenDimensions.get("window").width;
+DocumentsList.defaultProps = {
+  numColumns: 3
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -105,9 +122,5 @@ const styles = StyleSheet.create({
     color: Colors.textColor
   }
 });
-
-DocumentsList.defaultProps = {
-  numColumns: 3
-};
 
 export default withFireBase(DocumentsList);

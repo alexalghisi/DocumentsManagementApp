@@ -8,4 +8,5 @@ export default {
   cardBackgroundColor: '#FFFFFF',
   textColor: '#222',
   containerBackgroundColor: '#e9ebee',
+  blue: '#0000FF',
 };

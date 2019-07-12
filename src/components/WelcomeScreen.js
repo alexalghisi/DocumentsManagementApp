@@ -11,7 +11,7 @@ class WelcomeScreen extends Component {
   render() {
     return (
       <View style={styles.container} >
-        <DocumentsList/>
+        <DocumentsList {...this.props}/>
       </View>
     );
   }
