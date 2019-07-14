@@ -45,23 +45,25 @@ const DocumentsList = props => {
   // Render function used by FlatList.
   const renderItem = ({ item }) => {
     if (item.empty === true) {
-      return <View style={[styles.item, styles.itemInvisible]} />;
+      return <View style={[styles.card, styles.itemInvisible]} />;
     }
 
-    return(
-      <View style={styles.item}>
+    return (
+      <View style={styles.card}>
         <TouchableOpacity
-          style={styles.item}
+          style={styles.card}
           onPress={() => navigateToScreen(props, "DocumentAuto", item)}
         >
-          <Image style={styles.item} source={{ uri: item.imageURI }} />
-          <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
+          <Image style={styles.card} source={{ uri: item.imageURI }} />
+          <Text style={[styles.itemText, styles.typeTextStyle]}>
+            {item.type}
+          </Text>
           <Text style={[styles.itemText, styles.dateTextStyle]}>
             {item.expire}
           </Text>
         </TouchableOpacity>
       </View>
-    )
+    );
   };
 
   const { numColumns, items } = props;
@@ -69,6 +71,7 @@ const DocumentsList = props => {
     <View style={styles.viewContainer}>
       <React.Fragment>
         <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
+        <Text style={styles.titleText}>Evenimente</Text>
         <FlatList
           data={getDocuments(items, numColumns)}
           style={styles.container}
@@ -90,9 +93,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.containerBackgroundColor
   },
   headerImage: {
-    height: 80,
+    height: Dimensions.headerImageHeight,
     width: width,
-    marginBottom: Dimensions.marginBottom
+    paddingBottom: Dimensions.primarySpacing
   },
   viewContainer: {
     backgroundColor: Colors.containerBackgroundColor
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
   dateTextStyle: {
     fontSize: Dimensions.secondaryFontSize
   },
-  item: {
+  card: {
     height: 150,
     width: 100,
     backgroundColor: Colors.cardBackgroundColor,
@@ -121,6 +124,12 @@ const styles = StyleSheet.create({
   itemText: {
     color: Colors.textColor
   },
+  titleText: {
+    fontSize: Dimensions.titleFontSize,
+    color: Colors.textColor,
+    fontWeight: "bold",
+    padding: Dimensions.padding
+  }
 });
 
 export default withFireBase(DocumentsList);

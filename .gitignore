@@ -57,4 +57,4 @@ buck-out/
 yarn.lock
 .eslintrc.js
 ios/HelloWorld.xcworkspace/
-ios/Podfile
+ios/*

@@ -1,48 +1,47 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import { withNavigation } from 'react-navigation';
+import React from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { withNavigation } from "react-navigation";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
-const addItem = (props) => {
+const addItem = props => {
   const type = props.navigation.getParam("type");
   const imageURI = props.navigation.getParam("imageURI");
 
   props.navigation.navigate("AddItemScreen", {
     serviceName: type,
-    imageURI,
+    imageURI
   });
 };
 
-const DocumentAuto  = props =>
-{
+const DocumentAuto = props => {
   const type = props.navigation.getParam("type");
   const expire = props.navigation.getParam("expire");
   const imageURI = props.navigation.getParam("imageURI");
-  return <View style={styles.container}>
+  return (
+    <View style={styles.container}>
       <Image style={styles.cardStyle} source={{ uri: imageURI }} />
-      <Text style={styles.typeTextStyle}>
-           {type}
-       </Text>
-      <Text style={[styles.itemText, styles.dateTextStyle]}>
-        {expire}
-      </Text>
-         <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => addItem(props)}
-          style={styles.TouchableOpacityStyle}>
-          <Image
-            //We are making FAB using TouchableOpacity with an image
-            //We are using online image here
-             source={{
-uri:'https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png',
-            }}
-            //You can use you project image Example below
-            //source={require('./images/float-add-icon.png')}
-            style={styles.FloatingButtonStyle}
-          />
-        </TouchableOpacity>
-   </View>
+      <Text style={styles.typeTextStyle}>{type}</Text>
+      <Text style={[styles.itemText, styles.dateTextStyle]}>{expire}</Text>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => addItem(props)}
+        style={styles.TouchableOpacityStyle}
+      >
+        <Image
+          //We are making FAB using TouchableOpacity with an image
+          //We are using online image here
+          source={{
+            uri:
+              "https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png"
+          }}
+          //You can use you project image Example below
+          //source={require('./images/float-add-icon.png')}
+          style={styles.FloatingButtonStyle}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -50,13 +49,14 @@ const styles = StyleSheet.create({
     height: Dimensions.cardHeight,
     width: Dimensions.cardWidth,
     backgroundColor: Colors.cardBackgroundColor,
-    resizeMode: 'contain',
-    flexDirection: "row"
+    resizeMode: "contain",
+    flexDirection: "row",
+    marginBottom: 10,
   },
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   typeTextStyle: {
     fontSize: Dimensions.primaryFontSize,
@@ -67,23 +67,21 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.secondaryFontSize
   },
   textStyle: {
-    color: Colors.blue,
+    color: Colors.blue
   },
   TouchableOpacityStyle: {
-    position: 'absolute',
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    width: Dimensions.floatingButtonWidth,
+    height: Dimensions.primaryHeight,
+    alignItems: "center",
+    justifyContent: "center",
     right: 30,
-    bottom: 30,
+    bottom: 30
   },
-
   FloatingButtonStyle: {
-    resizeMode: 'contain',
-    width: 50,
-    height: 50,
-    //backgroundColor:'black'
+    resizeMode: "contain",
+    width: Dimensions.floatingButtonWidth,
+    height: Dimensions.floatingButtonHeight
   }
 });
 export default withNavigation(DocumentAuto);

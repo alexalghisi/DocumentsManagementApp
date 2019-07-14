@@ -10,4 +10,5 @@ export default {
   containerBackgroundColor: '#e9ebee',
   blue: '#0000FF',
   addItemInputBackgroundColor: '#3B5998',
+  white: '#FFFFFF',
 };
