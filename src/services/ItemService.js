@@ -4,5 +4,7 @@ export const addItem =  (item) => {
     db.ref('/data').push({
         imageURI: item.imageURI,
         name: item.name,
+        expire: item.expire,
+        type: item.type
     });
 };

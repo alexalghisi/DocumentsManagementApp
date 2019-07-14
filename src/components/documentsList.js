@@ -9,7 +9,7 @@ import withFireBase from "./withFirebase";
 const width = ScreenDimensions.get("window").width;
 
 const headerImageUri =
-  "https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg";
+  "https://vignette.wikia.nocookie.net/mysterymanoronfacebook/images/d/d2/Garage.jpg/revision/latest?cb=20130210222723";
 
 const getDocuments = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);

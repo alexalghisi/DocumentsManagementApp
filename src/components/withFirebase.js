@@ -8,7 +8,7 @@ const withFireBase = WrappedComponent => {
       const [ data, setData ] = useState([]);
 
         const fetchData = () => {
-          itemsRef.once("value", snapshot => {
+          itemsRef.on("value", snapshot => {
             const items = snapshot.val();
             setData(Object.values(items));
             return items;
