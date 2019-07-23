@@ -12,10 +12,10 @@ import DatePicker from "react-native-datepicker";
 import { withNavigation } from "react-navigation";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
-import { addItem } from "../services/ItemService";
+import withFireBase from "./withFirebase";
 
-const AddItem = props =>
-{
+const AddItem = props => {
+  const { addItem } = props;
   const state = {
     name: "",
     date: "15-05-2019",
@@ -23,25 +23,24 @@ const AddItem = props =>
     imageURI: props.navigation.getParam("imageURI")
   };
 
-   const [myState, setMyState] = useState(state);
-   const handleNameChange = name => {
-     setMyState(prevState=> ({...prevState, name: name }));
-   };
+  const [myState, setMyState] = useState(state);
+  const handleNameChange = name => {
+    setMyState(prevState => ({ ...prevState, name: name }));
+  };
 
- const handleSubmit = () => {
+  const handleSubmit = () => {
     addItem({
       name: myState.name,
       imageURI: myState.imageURI,
       expire: myState.date,
       type: myState.type,
-      date: myState.date,
+      date: myState.date
     });
     Alert.alert("Eveniment adaugat cu succes");
- };
+  };
 
-  const handleDateChange = date =>
-  {
-    setMyState(prevState=> ({...prevState, date }));
+  const handleDateChange = date => {
+    setMyState(prevState => ({ ...prevState, date }));
   };
 
   return (
@@ -57,9 +56,12 @@ const AddItem = props =>
         maxDate="01-01-2025"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
-        onDateChange={(date) => handleDateChange(date)}
+        onDateChange={date => handleDateChange(date)}
       />
-      <TextInput style={styles.itemInput} onChangeText={name => handleNameChange(name)} />
+      <TextInput
+        style={styles.itemInput}
+        onChangeText={name => handleNameChange(name)}
+      />
       <TouchableHighlight style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Add</Text>
       </TouchableHighlight>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   datePicker: {
     width: Dimensions.datePickerWidth,
     marginBottom: 20,
-    marginLeft: 20,
+    marginLeft: 20
   },
   title: {
     marginBottom: Dimensions.primarySpacing,
@@ -113,4 +115,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withNavigation(AddItem);
+export default withFireBase(withNavigation(AddItem));

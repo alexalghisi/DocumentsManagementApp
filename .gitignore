@@ -56,5 +56,4 @@ buck-out/
 *.jsbundle
 yarn.lock
 .eslintrc.js
-ios/HelloWorld.xcworkspace/
-ios/
+
