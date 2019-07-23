@@ -8,13 +8,13 @@ import Colors from './src/constants/colors'
 import HomeScreen from './src/components/HomeScreen';
 import WelcomeScreen from './src/components/WelcomeScreen';
 import DocumentAuto from './src/screens/DocumentAuto';
-import AddItem from './src/components/addItem';
+import editItem from './src/components/editItem';
 
 const RootStack = createStackNavigator({
         Home: HomeScreen,
         WelcomeScreen,
         DocumentAuto,
-        AddItemScreen:  AddItem ,
+        editItemScreen:  editItem ,
     }, {
         initialRouteName: 'Home',
         navigationOptions: {

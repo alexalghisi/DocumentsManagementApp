@@ -32,7 +32,8 @@ const navigateToScreen = (props, route, item) => {
   props.navigation.navigate(route, {
     type: item.type,
     imageURI: item.imageURI,
-    expire: item.expire
+    expire: item.expire,
+    ID: item.id,
   });
 };
 
@@ -69,16 +70,14 @@ const DocumentsList = props => {
   const { numColumns, items } = props;
   return (
     <View style={styles.viewContainer}>
-      <React.Fragment>
-        <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
-        <Text style={styles.titleText}>Evenimente</Text>
-        <FlatList
-          data={getDocuments(items, numColumns)}
-          style={styles.container}
-          renderItem={renderItem}
-          numColumns={numColumns}
-        />
-      </React.Fragment>
+      <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
+      <Text style={styles.titleText}>Evenimente</Text>
+      <FlatList
+        data={getDocuments(items, numColumns)}
+        style={styles.container}
+        renderItem={renderItem}
+        numColumns={numColumns}
+      />
     </View>
   );
 };
