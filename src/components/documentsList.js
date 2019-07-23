@@ -69,16 +69,14 @@ const DocumentsList = props => {
   const { numColumns, items } = props;
   return (
     <View style={styles.viewContainer}>
-      <React.Fragment>
-        <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
-        <Text style={styles.titleText}>Evenimente</Text>
-        <FlatList
-          data={getDocuments(items, numColumns)}
-          style={styles.container}
-          renderItem={renderItem}
-          numColumns={numColumns}
-        />
-      </React.Fragment>
+      <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
+      <Text style={styles.titleText}>Evenimente</Text>
+      <FlatList
+        data={getDocuments(items, numColumns)}
+        style={styles.container}
+        renderItem={renderItem}
+        numColumns={numColumns}
+      />
     </View>
   );
 };

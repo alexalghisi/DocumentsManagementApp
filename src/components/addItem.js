@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  AlertIOS
+  Alert
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 
@@ -14,64 +14,58 @@ import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 import { addItem } from "../services/ItemService";
 
-class AddItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      date: "15-05-2018",
-      type: props.navigation.getParam("serviceName"),
-      imageURI: props.navigation.getParam("imageURI")
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleChange(e) {
-    this.setState({
-      name: e.nativeEvent.text
-    });
-  }
-  handleSubmit() {
-    console.log(this.state.date);
+const AddItem = props =>
+{
+  const state = {
+    name: "",
+    date: "15-05-2019",
+    type: props.navigation.getParam("serviceName"),
+    imageURI: props.navigation.getParam("imageURI")
+  };
+
+   const [myState, setMyState] = useState(state);
+   const handleNameChange = name => {
+     setMyState(prevState=> ({...prevState, name: name }));
+   };
+
+ const handleSubmit = () => {
     addItem({
-      name: this.state.name,
-      imageURI: this.state.imageURI,
-      expire: this.state.date,
-      type: this.state.type
+      name: myState.name,
+      imageURI: myState.imageURI,
+      expire: myState.date,
+      type: myState.type,
+      date: myState.date,
     });
-    AlertIOS.alert("Eveniment adaugat cu succes");
-  }
-  render() {
-    return (
-      <View style={styles.main}>
-        <Text style={styles.title}>Add {this.state.type}</Text>
-        <DatePicker
-          style={styles.datePicker}
-          date={this.state.date} //initial date from state
-          mode="date" //The enum of date, datetime and time
-          placeholder="select expire date"
-          format="DD-MM-YYYY"
-          minDate="01-01-2019"
-          maxDate="01-01-2025"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateInput: {
-              marginLeft: 36
-            }
-          }}
-          onDateChange={date => {
-            this.setState({ date: date });
-          }}
-        />
-        <TextInput style={styles.itemInput} onChange={this.handleChange} />
-        <TouchableHighlight style={styles.button} onPress={this.handleSubmit}>
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
+    Alert.alert("Eveniment adaugat cu succes");
+ };
+
+  const handleDateChange = date =>
+  {
+    setMyState(prevState=> ({...prevState, date }));
+  };
+
+  return (
+    <View style={styles.main}>
+      <Text style={styles.title}>Add {myState.type}</Text>
+      <DatePicker
+        style={styles.datePicker}
+        date={myState.date} //initial date from myState
+        mode="date" //The enum of date, datetime and time
+        placeholder="select expire date"
+        format="DD-MM-YYYY"
+        minDate="01-01-2019"
+        maxDate="01-01-2025"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        onDateChange={(date) => handleDateChange(date)}
+      />
+      <TextInput style={styles.itemInput} onChangeText={name => handleNameChange(name)} />
+      <TouchableHighlight style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Add</Text>
+      </TouchableHighlight>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   main: {
@@ -82,9 +76,8 @@ const styles = StyleSheet.create({
   },
   datePicker: {
     width: Dimensions.datePickerWidth,
-    right: 0,
-    left: 0,
     marginBottom: 20,
+    marginLeft: 20,
   },
   title: {
     marginBottom: Dimensions.primarySpacing,
