@@ -10,24 +10,27 @@ const withFireBase = WrappedComponent => {
     const fetchData = () => {
       itemsRef.on("value", snapshot => {
         const items = snapshot.val();
-        setData(Object.values(items));
+          setData(Object.keys(items).map(id => ({
+                    id,
+                    ...items[id],
+          })));
         return items;
       });
     };
 
-    const addItem = item => {
-      db.ref("/data").push({
+    const updateItem = item => {
+      db.ref("/data/" + item.ID).update({
         imageURI: item.imageURI,
         name: item.name,
         expire: item.expire,
-        type: item.type
+        type: item.type,
       });
     };
 
     return (
       <WrappedComponent
         {...props}
-        addItem={addItem}
+        updateItem={updateItem}
         fetchData={fetchData}
         items={data}
       />

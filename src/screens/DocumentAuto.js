@@ -4,13 +4,14 @@ import { withNavigation } from "react-navigation";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
-const addItem = props => {
+const editItem = props => {
   const type = props.navigation.getParam("type");
   const imageURI = props.navigation.getParam("imageURI");
-
-  props.navigation.navigate("AddItemScreen", {
+  const ID = props.navigation.getParam("ID");
+  props.navigation.navigate("editItemScreen", {
     serviceName: type,
-    imageURI
+    imageURI,
+    ID,
   });
 };
 
@@ -25,13 +26,13 @@ const DocumentAuto = props => {
       <Text style={[styles.itemText, styles.dateTextStyle]}>{expire}</Text>
       <TouchableOpacity
         activeOpacity={0.7}
-        onPress={() => addItem(props)}
+        onPress={() => editItem(props)}
         style={styles.TouchableOpacityStyle}
       >
         <Image
           source={{
             uri:
-              "https://aboutreact.com/wp-content/uploads/2018/08/bc72de57b000a7037294b53d34c2cbd1.png"
+              "https://cdn0.iconfinder.com/data/icons/opensourceicons/32/edit.png"
           }}
           style={styles.FloatingButtonStyle}
         />

@@ -14,29 +14,31 @@ import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 import withFireBase from "./withFirebase";
 
-const AddItem = props => {
-  const { addItem } = props;
+const EditItem = props => {
+  const { updateItem } = props;
   const state = {
     name: "",
-    date: "15-05-2019",
+    date: "",
     type: props.navigation.getParam("serviceName"),
-    imageURI: props.navigation.getParam("imageURI")
+    imageURI: props.navigation.getParam("imageURI"),
+    ID: props.navigation.getParam("ID"),
   };
 
-  const [myState, setMyState] = useState(state);
+  const [localState, setMyState] = useState(state);
   const handleNameChange = name => {
     setMyState(prevState => ({ ...prevState, name: name }));
   };
 
   const handleSubmit = () => {
-    addItem({
-      name: myState.name,
-      imageURI: myState.imageURI,
-      expire: myState.date,
-      type: myState.type,
-      date: myState.date
+    updateItem({
+      name: localState.name,
+      imageURI: localState.imageURI,
+      expire: localState.date,
+      type: localState.type,
+      date: localState.date,
+      ID: localState.ID,
     });
-    Alert.alert("Eveniment adaugat cu succes");
+    Alert.alert("Eveniment editat cu succes");
   };
 
   const handleDateChange = date => {
@@ -45,15 +47,15 @@ const AddItem = props => {
 
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>Add {myState.type}</Text>
+      <Text style={styles.title}>{localState.type}</Text>
       <DatePicker
         style={styles.datePicker}
-        date={myState.date} //initial date from myState
+        date={localState.date} //initial date from localState
         mode="date" //The enum of date, datetime and time
         placeholder="select expire date"
         format="DD-MM-YYYY"
-        minDate="01-01-2019"
-        maxDate="01-01-2025"
+        minDate=""
+        maxDate=""
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         onDateChange={date => handleDateChange(date)}
@@ -63,7 +65,7 @@ const AddItem = props => {
         onChangeText={name => handleNameChange(name)}
       />
       <TouchableHighlight style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Add</Text>
+        <Text style={styles.buttonText}>Update</Text>
       </TouchableHighlight>
     </View>
   );
@@ -115,4 +117,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withFireBase(withNavigation(AddItem));
+export default withFireBase(withNavigation(EditItem));
