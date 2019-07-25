@@ -32,7 +32,8 @@ const navigateToScreen = (props, route, item) => {
   props.navigation.navigate(route, {
     type: item.type,
     imageURI: item.imageURI,
-    expire: item.expire
+    expire: item.expire,
+    ID: item.id,
   });
 };
 
