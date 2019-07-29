@@ -17,40 +17,40 @@ import withFireBase from "./withFirebase";
 const EditItem = props => {
   const { updateItem } = props;
   const state = {
-    name: "",
-    date: "",
+    name: props.navigation.getParam("name"),
+    date: props.navigation.getParam("date"),
     type: props.navigation.getParam("serviceName"),
     imageURI: props.navigation.getParam("imageURI"),
     ID: props.navigation.getParam("ID"),
   };
 
-  const [localState, setMyState] = useState(state);
+  const [autoData, setValues] = useState(state);
   const handleNameChange = name => {
-    setMyState(prevState => ({ ...prevState, name: name }));
+    setValues(prevState => ({ ...prevState, name: name }));
   };
 
   const handleSubmit = () => {
     updateItem({
-      name: localState.name,
-      imageURI: localState.imageURI,
-      expire: localState.date,
-      type: localState.type,
-      date: localState.date,
-      ID: localState.ID,
+      name: autoData.name,
+      imageURI: autoData.imageURI,
+      expire: autoData.date,
+      type: autoData.type,
+      date: autoData.date,
+      ID: autoData.ID,
     });
     Alert.alert("Eveniment editat cu succes");
   };
 
   const handleDateChange = date => {
-    setMyState(prevState => ({ ...prevState, date }));
+    setValues(prevState => ({ ...prevState, date }));
   };
 
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>{localState.type}</Text>
+      <Text style={styles.title}>{autoData.type}</Text>
       <DatePicker
         style={styles.datePicker}
-        date={localState.date} //initial date from localState
+        date={autoData.date} //initial date from autoData
         mode="date" //The enum of date, datetime and time
         placeholder="select expire date"
         format="DD-MM-YYYY"
@@ -62,6 +62,7 @@ const EditItem = props => {
       />
       <TextInput
         style={styles.itemInput}
+        value={autoData.name}
         onChangeText={name => handleNameChange(name)}
       />
       <TouchableHighlight style={styles.button} onPress={handleSubmit}>
