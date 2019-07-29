@@ -34,6 +34,8 @@ const navigateToScreen = (props, route, item) => {
     imageURI: item.imageURI,
     expire: item.expire,
     ID: item.id,
+    name: item.name,
+    downloadURL: item.downloadURL
   });
 };
 
@@ -45,6 +47,7 @@ const DocumentsList = props => {
 
   // Render function used by FlatList.
   const renderItem = ({ item }) => {
+
     if (item.empty === true) {
       return <View style={[styles.card, styles.itemInvisible]} />;
     }
@@ -53,9 +56,9 @@ const DocumentsList = props => {
       <View style={styles.card}>
         <TouchableOpacity
           style={styles.card}
-          onPress={() => navigateToScreen(props, "DocumentAuto", item)}
+          onPress={() => navigateToScreen(props, "editItemScreen", item)}
         >
-          <Image style={styles.card} source={{ uri: item.imageURI }} />
+          <Image style={styles.card} source={{ uri: item.downloadURL }} />
           <Text style={[styles.itemText, styles.typeTextStyle]}>
             {item.type}
           </Text>

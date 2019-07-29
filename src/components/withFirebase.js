@@ -20,10 +20,10 @@ const withFireBase = WrappedComponent => {
 
     const updateItem = item => {
       db.ref("/data/" + item.ID).update({
-        imageURI: item.imageURI,
         name: item.name,
         expire: item.expire,
         type: item.type,
+        downloadURL: item.downloadURL
       });
     };
 

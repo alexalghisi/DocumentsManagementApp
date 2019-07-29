@@ -5,9 +5,15 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  Alert
+  Alert,
+  Button,
+  Image,
+  ActivityIndicator
 } from "react-native";
 import DatePicker from "react-native-datepicker";
+import ImagePicker from "react-native-image-picker";
+import firebase from "react-native-firebase";
+import uuid from "uuid/v4";
 
 import { withNavigation } from "react-navigation";
 import Colors from "../constants/colors";
@@ -16,41 +22,101 @@ import withFireBase from "./withFirebase";
 
 const EditItem = props => {
   const { updateItem } = props;
+
   const state = {
-    name: "",
-    date: "",
-    type: props.navigation.getParam("serviceName"),
-    imageURI: props.navigation.getParam("imageURI"),
+    name: props.navigation.getParam("name"),
+    date: props.navigation.getParam("expire"),
+    type: props.navigation.getParam("type"),
     ID: props.navigation.getParam("ID"),
+    downloadURL: props.navigation.getParam("downloadURL")
   };
 
-  const [localState, setMyState] = useState(state);
+  const [autoData, setValues] = useState(state);
+
   const handleNameChange = name => {
-    setMyState(prevState => ({ ...prevState, name: name }));
+    setValues(prevState => ({ ...prevState, name: name }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = newAutoData => {
     updateItem({
-      name: localState.name,
-      imageURI: localState.imageURI,
-      expire: localState.date,
-      type: localState.type,
-      date: localState.date,
-      ID: localState.ID,
+      name: newAutoData.name,
+      expire: newAutoData.date,
+      type: newAutoData.type,
+      date: newAutoData.date,
+      ID: newAutoData.ID,
+      downloadURL: newAutoData.downloadURL,
+      imageUri: newAutoData
     });
-    Alert.alert("Eveniment editat cu succes");
+
+    Alert.alert("Eveniment actualizat cu succes");
   };
 
   const handleDateChange = date => {
-    setMyState(prevState => ({ ...prevState, date }));
+    setValues(prevState => ({ ...prevState, date }));
   };
 
+  const uploadImage = () => {
+    const ext = autoData.imageUri && autoData.imageUri.split(".").pop();
+    const filename = `${uuid()}.${ext}`; // Generate unique name
+
+    autoData.imageUri &&
+      firebase
+      .storage()
+        .ref(`Asigurari/images/${filename}`)
+        .putFile(autoData.imageUri)
+        .on(
+          firebase.storage.TaskEvent.STATE_CHANGED,
+          snapshot => {
+            if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
+              let tempState = {downloadURL: snapshot.downloadURL};
+              setValues(prevState => ({...prevState, ...tempState}));
+              const newAutoData = {...autoData, ...tempState};
+              handleSubmit(newAutoData);
+            }
+          },
+          error => {
+            alert("Sorry, Try again.");
+          }
+        );
+  };
+
+  const chooseFile = () => {
+    const options = {
+      title: "Select Image",
+      customButtons: [
+        { name: "customOptionKey", title: "Choose Photo from Custom Option" }
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: "images"
+      }
+    };
+    ImagePicker.showImagePicker(options, response => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        const newData = {
+          imgSource: source,
+          imageUri: response.uri
+        };
+        setValues(prevState => ({ ...prevState, ...newData }));
+      }
+    });
+  };
+
+  const imageSource = autoData.imageUri || autoData.downloadURL;
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>{localState.type}</Text>
+      <Text style={styles.title}>{autoData.type}</Text>
       <DatePicker
         style={styles.datePicker}
-        date={localState.date} //initial date from localState
+        date={autoData.date} //initial date from autoData
         mode="date" //The enum of date, datetime and time
         placeholder="select expire date"
         format="DD-MM-YYYY"
@@ -62,11 +128,15 @@ const EditItem = props => {
       />
       <TextInput
         style={styles.itemInput}
+        value={autoData.name}
         onChangeText={name => handleNameChange(name)}
       />
-      <TouchableHighlight style={styles.button} onPress={handleSubmit}>
+      <TouchableHighlight style={styles.button} onPress={uploadImage} underlayColor='none' >
         <Text style={styles.buttonText}>Update</Text>
       </TouchableHighlight>
+
+      <Button title="Select Image" onPress={chooseFile} />
+      <Image source={{ uri: imageSource }} style={styles.image} />
     </View>
   );
 };
@@ -100,20 +170,25 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: Colors.loginButtonColor,
+    color: Colors.white,
     alignSelf: "center"
   },
   button: {
     height: Dimensions.primaryHeight,
     flexDirection: "row",
-    backgroundColor: Colors.white,
     borderColor: Colors.white,
+    backgroundColor: Colors.addItemInputBackgroundColor,
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 20,
     marginBottom: Dimensions.padding,
     marginTop: Dimensions.padding,
     alignSelf: "stretch",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  image: {
+    marginTop: 20,
+    minWidth: 200,
+    height: 200
   }
 });
 
