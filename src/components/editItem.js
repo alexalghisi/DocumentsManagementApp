@@ -32,17 +32,15 @@ const EditItem = props => {
 
   const handleSubmit = () => {
     console.log("TEST =>", autoData);
-    updateItem({
+    return updateItem({
       name: autoData.name,
       imageURI: autoData.imageURI,
       expire: autoData.date,
       type: autoData.type,
       date: autoData.date,
       ID: autoData.ID
-    });/*.then(newItem => {
-      setValues(prevState => ({ ...prevState, newItem }));
-    });*/
-    Alert.alert("Eveniment editat cu succes");
+    });
+    //Alert.alert("Eveniment editat cu succes");
   };
 
   const handleDateChange = date => {

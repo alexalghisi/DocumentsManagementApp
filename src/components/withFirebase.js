@@ -25,12 +25,7 @@ const withFireBase = WrappedComponent => {
         expire: item.expire,
         type: item.type,
       };
-      return db.ref("/data/" + item.ID).update(newItem);/*.then(function() {
-        return newItem;
-      });/*.catch(function(error) {
-        console.error("Write failed: "+error)
-      });*/
-
+      return db.ref("/data/" + item.ID).update(newItem);
     };
 
     return (

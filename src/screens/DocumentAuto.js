@@ -1,25 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { withNavigation } from "react-navigation";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
-const editItem = props => {
-  const type = props.navigation.getParam("type");
-  const imageURI = props.navigation.getParam("imageURI");
-  const ID = props.navigation.getParam("ID");
-  const name = props.navigation.getParam("name");
-  const date = props.navigation.getParam("expire");
-  props.navigation.navigate("editItemScreen", {
-    serviceName: type,
-    imageURI,
-    ID,
-    name,
-    date,
-  });
-};
-
 const DocumentAuto = props => {
+  const state = {
+    name: props.navigation.getParam("name"),
+    date: props.navigation.getParam("date"),
+    type: props.navigation.getParam("serviceName"),
+    imageURI: props.navigation.getParam("imageURI"),
+    ID: props.navigation.getParam("ID")
+  };
+  const [autoData, setValues] = useState(state);
+
+  const editItem = props => {
+    const type = props.navigation.getParam("type");
+    const imageURI = props.navigation.getParam("imageURI");
+    const ID = props.navigation.getParam("ID");
+    const name = props.navigation.getParam("name");
+    const date = props.navigation.getParam("expire");
+
+    console.log("navigate=>",props.navigation.navigate);
+
+    props.navigation.navigate("editItemScreen", {
+      serviceName: type,
+      imageURI,
+      ID,
+      name,
+      date,
+    });
+    //.then( (newItem) =>   setValues(prevState => ({ ...prevState, newItem })));
+  };
+
   const type = props.navigation.getParam("type");
   const expire = props.navigation.getParam("expire");
   const imageURI = props.navigation.getParam("imageURI");
