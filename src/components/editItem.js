@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import {
   View,
   Text,
@@ -21,23 +21,27 @@ const EditItem = props => {
     date: props.navigation.getParam("date"),
     type: props.navigation.getParam("serviceName"),
     imageURI: props.navigation.getParam("imageURI"),
-    ID: props.navigation.getParam("ID"),
+    ID: props.navigation.getParam("ID")
   };
 
   const [autoData, setValues] = useState(state);
+
   const handleNameChange = name => {
     setValues(prevState => ({ ...prevState, name: name }));
   };
 
   const handleSubmit = () => {
+    console.log("TEST =>", autoData);
     updateItem({
       name: autoData.name,
       imageURI: autoData.imageURI,
       expire: autoData.date,
       type: autoData.type,
       date: autoData.date,
-      ID: autoData.ID,
-    });
+      ID: autoData.ID
+    });/*.then(newItem => {
+      setValues(prevState => ({ ...prevState, newItem }));
+    });*/
     Alert.alert("Eveniment editat cu succes");
   };
 
@@ -50,6 +54,7 @@ const EditItem = props => {
       <Text style={styles.title}>{autoData.type}</Text>
       <DatePicker
         style={styles.datePicker}
+        selected={autoData.date}
         date={autoData.date} //initial date from autoData
         mode="date" //The enum of date, datetime and time
         placeholder="select expire date"

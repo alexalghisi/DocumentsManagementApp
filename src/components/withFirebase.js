@@ -19,12 +19,18 @@ const withFireBase = WrappedComponent => {
     };
 
     const updateItem = item => {
-      db.ref("/data/" + item.ID).update({
+      const newItem= {
         imageURI: item.imageURI,
         name: item.name,
         expire: item.expire,
         type: item.type,
-      });
+      };
+      return db.ref("/data/" + item.ID).update(newItem);/*.then(function() {
+        return newItem;
+      });/*.catch(function(error) {
+        console.error("Write failed: "+error)
+      });*/
+
     };
 
     return (
