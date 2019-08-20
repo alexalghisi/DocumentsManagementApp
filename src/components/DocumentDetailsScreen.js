@@ -20,8 +20,8 @@ import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 import withFireBase from "./withFirebase";
 
-const EditItem = props => {
-  const { updateItem } = props;
+const DocumentDetailsScreen = props => {
+  const { updateItem, uploadImageToStorage } = props;
 
   const state = {
     name: props.navigation.getParam("name"),
@@ -31,13 +31,14 @@ const EditItem = props => {
     downloadURL: props.navigation.getParam("downloadURL")
   };
 
-  const [autoData, setValues] = useState(state);
+  const [autoData, updateAutoData] = useState(state);
 
   const handleNameChange = name => {
-    setValues(prevState => ({ ...prevState, name: name }));
+    updateAutoData(prevState => ({ ...prevState, name: name }));
   };
 
-  const handleSubmit = newAutoData => {
+  const handleSubmit = downloadURL => {
+    const newAutoData = { ...autoData, downloadURL };
     updateItem({
       name: newAutoData.name,
       expire: newAutoData.date,
@@ -52,32 +53,16 @@ const EditItem = props => {
   };
 
   const handleDateChange = date => {
-    setValues(prevState => ({ ...prevState, date }));
+    updateAutoData(prevState => ({ ...prevState, date }));
   };
 
   const uploadImage = () => {
+    const imageUri = autoData && autoData.imageUri;
     const ext = autoData.imageUri && autoData.imageUri.split(".").pop();
     const filename = `${uuid()}.${ext}`; // Generate unique name
+    const filePath = `Asigurari/images/${filename}`;
 
-    autoData.imageUri &&
-      firebase
-      .storage()
-        .ref(`Asigurari/images/${filename}`)
-        .putFile(autoData.imageUri)
-        .on(
-          firebase.storage.TaskEvent.STATE_CHANGED,
-          snapshot => {
-            if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
-              let tempState = {downloadURL: snapshot.downloadURL};
-              setValues(prevState => ({...prevState, ...tempState}));
-              const newAutoData = {...autoData, ...tempState};
-              handleSubmit(newAutoData);
-            }
-          },
-          error => {
-            alert("Sorry, Try again.");
-          }
-        );
+    imageUri && uploadImageToStorage({ filePath, imageUri }, handleSubmit);
   };
 
   const chooseFile = () => {
@@ -92,21 +77,12 @@ const EditItem = props => {
       }
     };
     ImagePicker.showImagePicker(options, response => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-        alert(response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        const newData = {
-          imgSource: source,
-          imageUri: response.uri
-        };
-        setValues(prevState => ({ ...prevState, ...newData }));
-      }
+      const source = { uri: response.uri };
+      updateAutoData(prevState => ({
+        ...prevState,
+        imgSource: source,
+        imageUri: response.uri
+      }));
     });
   };
 
@@ -131,7 +107,11 @@ const EditItem = props => {
         value={autoData.name}
         onChangeText={name => handleNameChange(name)}
       />
-      <TouchableHighlight style={styles.button} onPress={uploadImage} underlayColor='none' >
+      <TouchableHighlight
+        style={styles.button}
+        onPress={uploadImage}
+        underlayColor="transparent"
+      >
         <Text style={styles.buttonText}>Update</Text>
       </TouchableHighlight>
 
@@ -183,13 +163,13 @@ const styles = StyleSheet.create({
     marginBottom: Dimensions.padding,
     marginTop: Dimensions.padding,
     alignSelf: "stretch",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   image: {
     marginTop: 20,
-    minWidth: 200,
-    height: 200
+    minWidth: Dimensions.imageWidth,
+    height: Dimensions.imageHeight
   }
 });
 
-export default withFireBase(withNavigation(EditItem));
+export default withFireBase(withNavigation(DocumentDetailsScreen));

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { db } from "../config";
+import firebase from "react-native-firebase";
 
 let itemsRef = db.ref("/data");
 
@@ -10,12 +11,33 @@ const withFireBase = WrappedComponent => {
     const fetchData = () => {
       itemsRef.on("value", snapshot => {
         const items = snapshot.val();
-          setData(Object.keys(items).map(id => ({
-                    id,
-                    ...items[id],
-          })));
+        setData(
+          Object.keys(items).map(id => ({
+            id,
+            ...items[id]
+          }))
+        );
         return items;
       });
+    };
+
+    const uploadImageToStorage = ({ filePath, imageUri }, cb) => {
+      firebase
+        .storage()
+        .ref(filePath)
+        .putFile(imageUri)
+        .on(
+          firebase.storage.TaskEvent.STATE_CHANGED,
+          snapshot => {
+            if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
+              const downloadURL = snapshot.downloadURL;
+              cb(downloadURL);
+            }
+          },
+          error => {
+            alert("Sorry, Try again.");
+          }
+        );
     };
 
     const updateItem = item => {
@@ -31,6 +53,7 @@ const withFireBase = WrappedComponent => {
       <WrappedComponent
         {...props}
         updateItem={updateItem}
+        uploadImageToStorage={uploadImageToStorage}
         fetchData={fetchData}
         items={data}
       />

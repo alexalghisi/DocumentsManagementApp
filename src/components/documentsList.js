@@ -5,6 +5,7 @@ import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
 import withFireBase from "./withFirebase";
+import DocumentAuto from "./DocumentAuto";
 
 const width = ScreenDimensions.get("window").width;
 
@@ -28,17 +29,6 @@ const getDocuments = (data, numColumns) => {
   return data;
 };
 
-const navigateToScreen = (props, route, item) => {
-  props.navigation.navigate(route, {
-    type: item.type,
-    imageURI: item.imageURI,
-    expire: item.expire,
-    ID: item.id,
-    name: item.name,
-    downloadURL: item.downloadURL
-  });
-};
-
 const DocumentsList = props => {
   // Fetch data from Firebase.
   useEffect(() => {
@@ -47,27 +37,11 @@ const DocumentsList = props => {
 
   // Render function used by FlatList.
   const renderItem = ({ item }) => {
-
     if (item.empty === true) {
       return <View style={[styles.card, styles.itemInvisible]} />;
     }
 
-    return (
-      <View style={styles.card}>
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => navigateToScreen(props, "editItemScreen", item)}
-        >
-          <Image style={styles.card} source={{ uri: item.downloadURL }} />
-          <Text style={[styles.itemText, styles.typeTextStyle]}>
-            {item.type}
-          </Text>
-          <Text style={[styles.itemText, styles.dateTextStyle]}>
-            {item.expire}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
+    return <DocumentAuto {...props} item={item} />;
   };
 
   const { numColumns, items } = props;
@@ -99,8 +73,8 @@ const styles = StyleSheet.create({
     width: width,
     paddingBottom: Dimensions.primarySpacing
   },
-  viewContainer: {
-    backgroundColor: Colors.containerBackgroundColor
+  view: {
+      backgroundColor: Colors.containerBackgroundColor,
   },
   typeTextStyle: {
     fontSize: Dimensions.primaryFontSize,
@@ -111,8 +85,8 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.secondaryFontSize
   },
   card: {
-    height: 150,
-    width: 100,
+    height: Dimensions.cardHeight,
+    width: Dimensions.cardWidth,
     backgroundColor: Colors.cardBackgroundColor,
     alignItems: "center",
     justifyContent: "center",
@@ -122,9 +96,6 @@ const styles = StyleSheet.create({
   },
   itemInvisible: {
     backgroundColor: "transparent"
-  },
-  itemText: {
-    color: Colors.textColor
   },
   titleText: {
     fontSize: Dimensions.titleFontSize,
