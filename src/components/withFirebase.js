@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../config";
 import firebase from "react-native-firebase";
+import uuid from "uuid/v4";
 
 let itemsRef = db.ref("/data");
 
@@ -21,7 +22,10 @@ const withFireBase = WrappedComponent => {
       });
     };
 
-    const uploadImageToStorage = ({ filePath, imageUri }, cb) => {
+    const uploadImageToStorage = ({ imageUri }, cb) => {
+      const ext = imageUri && imageUri.split(".").pop();
+      const filename = `${uuid()}.${ext}`;
+      const filePath = `Asigurari/images/${filename}`;
       firebase
         .storage()
         .ref(filePath)

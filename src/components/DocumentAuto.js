@@ -3,7 +3,6 @@ import { Text, View, FlatList, Image, TouchableOpacity } from "react-native";
 import { Dimensions as ScreenDimensions, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
-import withFireBase from "./withFirebase";
 
 const width = ScreenDimensions.get("window").width;
 
@@ -70,4 +69,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withFireBase(DocumentAuto);
+export default DocumentAuto;

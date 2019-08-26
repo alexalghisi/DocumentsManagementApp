@@ -7,13 +7,10 @@ import {
   TouchableHighlight,
   Alert,
   Button,
-  Image,
-  ActivityIndicator
+  Image
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import ImagePicker from "react-native-image-picker";
-import firebase from "react-native-firebase";
-import uuid from "uuid/v4";
 
 import { withNavigation } from "react-navigation";
 import Colors from "../constants/colors";
@@ -58,11 +55,8 @@ const DocumentDetailsScreen = props => {
 
   const uploadImage = () => {
     const imageUri = autoData && autoData.imageUri;
-    const ext = autoData.imageUri && autoData.imageUri.split(".").pop();
-    const filename = `${uuid()}.${ext}`; // Generate unique name
-    const filePath = `Asigurari/images/${filename}`;
 
-    imageUri && uploadImageToStorage({ filePath, imageUri }, handleSubmit);
+    imageUri && uploadImageToStorage({ imageUri }, handleSubmit);
   };
 
   const chooseFile = () => {
