@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, FlatList, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import { Dimensions as ScreenDimensions, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
