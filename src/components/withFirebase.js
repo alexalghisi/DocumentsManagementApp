@@ -22,7 +22,7 @@ const withFireBase = WrappedComponent => {
       });
     };
 
-    const uploadImageToStorage = ({ imageUri }, cb) => {
+    const uploadImageToStorage = ({ imageUri }, callBack) => {
       const ext = imageUri && imageUri.split(".").pop();
       const filename = `${uuid()}.${ext}`;
       const filePath = `Asigurari/images/${filename}`;
@@ -35,7 +35,7 @@ const withFireBase = WrappedComponent => {
           snapshot => {
             if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
               const downloadURL = snapshot.downloadURL;
-              cb(downloadURL);
+              callBack(downloadURL);
             }
           },
           error => {

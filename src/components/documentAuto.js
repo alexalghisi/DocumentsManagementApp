@@ -1,30 +1,30 @@
-import React from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
-import { Dimensions as ScreenDimensions, StyleSheet } from "react-native";
+import React,  { useCallback } from "react";
+import { Text, View, Image, TouchableOpacity, Dimensions as ScreenDimensions, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
 const width = ScreenDimensions.get("window").width;
 
-const navigateToScreen = (props, route, item) => {
-  props.navigation.navigate(route, {
-    type: item.type,
-    imageURI: item.imageURI,
-    expire: item.expire,
-    ID: item.id,
-    name: item.name,
-    downloadURL: item.downloadURL
-  });
-};
-
 const DocumentAuto = props => {
   const { item } = props;
 
-  return (
+  const onPress = React.useCallback(() => {
+    const { navigation, item } = props;
+    navigation.navigate('DocumentDetailsScreen', {
+      type: item.type,
+      imageURI: item.imageURI,
+      expire: item.expire,
+      ID: item.id,
+      name: item.name,
+      downloadURL: item.downloadURL,
+    });
+  }, [props]);
+
+    return (
     <View style={styles.card}>
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigateToScreen(props, "DocumentDetailsScreen", item)}
+        onPress={onPress}
       >
         <Image style={styles.card} source={{ uri: (item.downloadURL || item.imageURI) }} />
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
@@ -33,7 +33,7 @@ const DocumentAuto = props => {
         </Text>
       </TouchableOpacity>
     </View>
-  );
+  )
 };
 
 const styles = StyleSheet.create({

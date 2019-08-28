@@ -5,7 +5,7 @@ import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
 import withFireBase from "./withFirebase";
-import DocumentAuto from "./DocumentAuto";
+import DocumentAuto from "./documentAuto";
 
 const width = ScreenDimensions.get("window").width;
 
