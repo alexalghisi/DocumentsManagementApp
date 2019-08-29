@@ -3,6 +3,12 @@ package com.helloworld;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.imagepicker.ImagePickerPackage;
+import com.github.wumke.RNLocalNotifications.RNLocalNotificationsPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,6 +30,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new ReactNativeFirebaseStoragePackage(),
+            new RNFirebasePackage(),
+            new ImagePickerPackage(),
+            new RNLocalNotificationsPackage(),
+            new RNFetchBlobPackage(),
             new RNGestureHandlerPackage()
       );
     }

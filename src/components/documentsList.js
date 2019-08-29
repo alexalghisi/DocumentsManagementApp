@@ -5,11 +5,12 @@ import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
 import withFireBase from "./withFirebase";
+import DocumentAuto from "./documentAuto";
 
 const width = ScreenDimensions.get("window").width;
 
 const headerImageUri =
-  "https://aa-boschbcs-by.resource.bosch.com/media/_tech/images/backgrounds/visual_workshopfinder.jpg";
+  "https://vignette.wikia.nocookie.net/mysterymanoronfacebook/images/d/d2/Garage.jpg/revision/latest?cb=20130210222723";
 
 const getDocuments = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
@@ -28,14 +29,6 @@ const getDocuments = (data, numColumns) => {
   return data;
 };
 
-const navigateToScreen = (props, route, item) => {
-  props.navigation.navigate(route, {
-    type: item.type,
-    imageURI: item.imageURI,
-    expire: item.expire
-  });
-};
-
 const DocumentsList = props => {
   // Fetch data from Firebase.
   useEffect(() => {
@@ -45,37 +38,23 @@ const DocumentsList = props => {
   // Render function used by FlatList.
   const renderItem = ({ item }) => {
     if (item.empty === true) {
-      return <View style={[styles.item, styles.itemInvisible]} />;
+      return <View style={[styles.card, styles.itemInvisible]} />;
     }
 
-    return (
-      <View style={styles.item}>
-        <TouchableOpacity
-          style={styles.item}
-          onPress={() => navigateToScreen(props, "DocumentAuto", item)}
-        >
-          <Image style={styles.item} source={{ uri: item.imageURI }} />
-          <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
-          <Text style={[styles.itemText, styles.dateTextStyle]}>
-            {item.expire}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
+    return <DocumentAuto {...props} item={item} />;
   };
 
   const { numColumns, items } = props;
   return (
     <View style={styles.viewContainer}>
-      <React.Fragment>
-        <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
-        <FlatList
-          data={getDocuments(items, numColumns)}
-          style={styles.container}
-          renderItem={renderItem}
-          numColumns={numColumns}
-        />
-      </React.Fragment>
+      <Image style={styles.headerImage} source={{ uri: headerImageUri }} />
+      <Text style={styles.titleText}>Evenimente</Text>
+      <FlatList
+        data={getDocuments(items, numColumns)}
+        style={styles.container}
+        renderItem={renderItem}
+        numColumns={numColumns}
+      />
     </View>
   );
 };
@@ -90,12 +69,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.containerBackgroundColor
   },
   headerImage: {
-    height: 80,
+    height: Dimensions.headerImageHeight,
     width: width,
-    marginBottom: Dimensions.marginBottom
+    paddingBottom: Dimensions.primarySpacing
   },
-  viewContainer: {
-    backgroundColor: Colors.containerBackgroundColor
+  view: {
+      backgroundColor: Colors.containerBackgroundColor,
   },
   typeTextStyle: {
     fontSize: Dimensions.primaryFontSize,
@@ -105,9 +84,9 @@ const styles = StyleSheet.create({
   dateTextStyle: {
     fontSize: Dimensions.secondaryFontSize
   },
-  item: {
-    height: 150,
-    width: 100,
+  card: {
+    height: Dimensions.cardHeight,
+    width: Dimensions.cardWidth,
     backgroundColor: Colors.cardBackgroundColor,
     alignItems: "center",
     justifyContent: "center",
@@ -118,8 +97,11 @@ const styles = StyleSheet.create({
   itemInvisible: {
     backgroundColor: "transparent"
   },
-  itemText: {
-    color: Colors.textColor
+  titleText: {
+    fontSize: Dimensions.titleFontSize,
+    color: Colors.textColor,
+    fontWeight: "bold",
+    padding: Dimensions.padding
   }
 });
 
