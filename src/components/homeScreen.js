@@ -61,6 +61,7 @@ const HomeScreen = props => {
           keyboardType="email-address"
           underlineColorAndroid="transparent"
           onChangeText={email => handleEmailChange(email)}
+          autoCapitalize="none"
         />
       </View>
 
@@ -71,6 +72,7 @@ const HomeScreen = props => {
           secureTextEntry={true}
           password={true}
           placeholder="Password"
+          autoCapitalize="none"
           onChangeText={password => handlePasswordChange(password)}
         />
       </View>
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderBottomWidth: 1,
     width: wp("84.5%"),
-    height: 45,
+    height: Dimensions.primaryHeight,
     marginBottom: 20,
     flexDirection: "row",
     alignItems: "center"

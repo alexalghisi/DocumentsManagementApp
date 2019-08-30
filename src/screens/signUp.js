@@ -56,6 +56,7 @@ const SignUp = props => {
           style={styles.inputs}
           onChangeText={email => handleEmailChange(email)}
           value={accountDetails.email}
+
         />
       </View>
       <View style={styles.inputContainer}>
