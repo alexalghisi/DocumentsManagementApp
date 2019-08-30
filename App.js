@@ -5,12 +5,14 @@ import Colors from "./src/constants/colors";
 import HomeScreen from "./src/components/HomeScreen";
 import WelcomeScreen from "./src/components/WelcomeScreen";
 import DocumentDetailsScreen from "./src/components/DocumentDetailsScreen";
+import SignUp from "./src/screens/SignUp";
 
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
     WelcomeScreen,
-    DocumentDetailsScreen
+    DocumentDetailsScreen,
+    SignUp,
   },
   {
     initialRouteName: "Home",
