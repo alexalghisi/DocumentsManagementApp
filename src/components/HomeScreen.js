@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,81 +7,87 @@ import {
   TouchableOpacity,
   Button
 } from "react-native";
-import boundMethod from "autobind-decorator";
 
-import firebase from "react-native-firebase";
 import Colors from "../constants/colors";
-import Dimensions from '../constants/dimensions';
+import Dimensions from "../constants/dimensions";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import withFireBase from "./withFirebase";
+import { withNavigation } from "react-navigation";
 
-export default class LoginView extends Component {
-  static navigationOptions = {
+const HomeScreen = props => {
+  const navigationOptions = {
     title: "Home"
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { email: "", password: "", errorMessage: null };
-  }
+  const state = { email: "", password: "", errorMessage: null };
+  const [accountDetails, updateAccountDetails] = useState(state);
 
-  @boundMethod
-  handleLogin() {
-    console.log("STATE=>", this.state);
-    const { email, password } = this.state;
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate("WelcomeScreen"))
-      .catch(error => this.setState({ errorMessage: error.message }));
-  }
-
-  validate = val => {
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return reg.test(val);
+  const { signIn } = props;
+  const handleLogin = () => {
+    const { email, password } = state;
+    signIn({
+      email: accountDetails.email,
+      password: accountDetails.password
+    })
+      .then(() => props.navigation.navigate("WelcomeScreen"))
+      .catch(error => updaterErrorMessage(error.message));
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.errorMessage && (
-          <Text style={{ color: "red" }}>{this.state.errorMessage}</Text>
-        )}
+  const updaterErrorMessage = errorMessage => {
+    updateAccountDetails(prevState => ({
+      ...prevState,
+      errorMessage: errorMessage
+    }));
+  };
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({ email })}
-          />
-        </View>
+  const handlePasswordChange = password => {
+    updateAccountDetails(prevState => ({ ...prevState, password: password }));
+  };
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.inputs}
-            returnKeyType="go"
-            secureTextEntry={true}
-            password={true}
-            placeholder="Password"
-            onChangeText={password => this.setState({ password })}
-          />
-        </View>
+  const handleEmailChange = email => {
+    updateAccountDetails(prevState => ({ ...prevState, email: email }));
+  };
 
-        <TouchableOpacity
-          style={[styles.loginButton, styles.loginText]}
-          onPress={this.handleLogin}
-        >
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableOpacity>
-        <Button
-          title="Don't have an account?  Sign Up"
-          onPress={() => this.props.navigation.navigate("SignUp")}
+  return (
+    <View style={styles.container}>
+      {accountDetails.errorMessage && (
+        <Text style={{ color: "red" }}>{accountDetails.errorMessage}</Text>
+      )}
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.inputs}
+          placeholder="Email"
+          keyboardType="email-address"
+          underlineColorAndroid="transparent"
+          onChangeText={email => handleEmailChange(email)}
         />
       </View>
-    );
-  }
-}
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.inputs}
+          returnKeyType="go"
+          secureTextEntry={true}
+          password={true}
+          placeholder="Password"
+          onChangeText={password => handlePasswordChange(password)}
+        />
+      </View>
+
+      <TouchableOpacity
+        style={[styles.loginButton, styles.loginText]}
+        onPress={handleLogin}
+      >
+        <Text style={styles.loginText}>Login</Text>
+      </TouchableOpacity>
+      <Button
+        title="Don't have an account?  Sign Up"
+        onPress={() => props.navigation.navigate("SignUp")}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   inputs: {
-    height: 45,
+    height: Dimensions.primaryHeight,
     marginLeft: 16,
     flex: 1,
     backgroundColor: Colors.inputBackgroundColor
@@ -127,3 +133,5 @@ const styles = StyleSheet.create({
     color: Colors.loginTextColor
   }
 });
+
+export default withFireBase(withNavigation(HomeScreen));

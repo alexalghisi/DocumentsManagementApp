@@ -1,64 +1,86 @@
-import React from "react";
-import {StyleSheet, Text, TextInput, View, Button, TouchableOpacity} from "react-native";
-import firebase from 'react-native-firebase'
-import Colors from "../constants/colors";
-import Dimensions from '../constants/dimensions';
-import {widthPercentageToDP as wp} from "react-native-responsive-screen";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  TouchableOpacity
+} from "react-native";
 
-export default class SignUp extends React.Component {
-  state = { email: '', password: '', errorMessage: null };
-  handleSignUp = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate('Home'))
-      .catch(error => this.setState({errorMessage: error.message}))
+import Colors from "../constants/colors";
+import Dimensions from "../constants/dimensions";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import withFireBase from "../components/withFirebase";
+import { withNavigation } from "react-navigation";
+
+const SignUp = props => {
+  const state = { email: "", password: "", errorMessage: null };
+  const [accountDetails, updateAccountDetails] = useState(state);
+  const { createAccount } = props;
+
+  const updaterErrorMessage = errorMessage => {
+    updateAccountDetails(prevState => ({
+      ...prevState,
+      errorMessage: errorMessage
+    }));
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Sign Up</Text>
-        {this.state.errorMessage && (
-          <Text style={{ color: "red" }}>{this.state.errorMessage}</Text>
-        )}
-          <View style={styles.inputContainer}>
+  const handleSignUp = () => {
+    createAccount({
+      email: accountDetails.email,
+      password: accountDetails.password
+    })
+      .then(() => props.navigation.navigate("Home"))
+      .catch(error => updaterErrorMessage(error.message));
+  };
 
+  const handleEmailChange = email => {
+    updateAccountDetails(prevState => ({ ...prevState, email: email }));
+  };
+
+  const handlePasswordChange = password => {
+    updateAccountDetails(prevState => ({ ...prevState, password: password }));
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text>Sign Up</Text>
+      {accountDetails.errorMessage && (
+        <Text style={{ color: "red" }}>{accountDetails.errorMessage}</Text>
+      )}
+      <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
           autoCapitalize="none"
           style={styles.inputs}
-          onChangeText={email => this.setState({ email })}
-          value={this.state.email}
+          onChangeText={email => handleEmailChange(email)}
+          value={accountDetails.email}
         />
-          </View>
-                <View style={styles.inputContainer}>
-
+      </View>
+      <View style={styles.inputContainer}>
         <TextInput
           secureTextEntry
           placeholder="Password"
           autoCapitalize="none"
           style={styles.inputs}
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
-        />
-                </View>
-        <TouchableOpacity
-          style={[styles.loginButton, styles.signUp]}
-          onPress={this.handleSignUp}
-        >
-            <Text style={styles.signUp} >
-                Sign Up
-            </Text>
-        </TouchableOpacity>
-        <Button
-          title="Already have an account? Login"
-          onPress={() => this.props.navigation.navigate("Home")}
+          onChangeText={password => handlePasswordChange(password)}
+          value={accountDetails.password}
         />
       </View>
-    );
-  }
-}
+      <TouchableOpacity
+        style={[styles.loginButton, styles.signUp]}
+        onPress={handleSignUp}
+      >
+        <Text style={styles.signUp}>Sign Up</Text>
+      </TouchableOpacity>
+      <Button
+        title="Already have an account? Login"
+        onPress={() => props.navigation.navigate("Home")}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -68,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.inputBackgroundColor
   },
   inputs: {
-    height: 45,
+    height: Dimensions.primaryHeight,
     marginLeft: 16,
     flex: 1,
     backgroundColor: Colors.inputBackgroundColor
@@ -93,5 +115,7 @@ const styles = StyleSheet.create({
     width: wp("70%"),
     alignItems: "center",
     padding: 5
-  },
+  }
 });
+
+export default withFireBase(withNavigation(SignUp));
