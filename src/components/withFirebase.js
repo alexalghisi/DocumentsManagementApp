@@ -22,6 +22,14 @@ const withFireBase = WrappedComponent => {
       });
     };
 
+    const createAccount = ({ email, password }) => {
+      return firebase.auth().createUserWithEmailAndPassword(email, password);
+    };
+
+    const signIn = ({ email, password }) => {
+      return firebase.auth().signInWithEmailAndPassword(email, password);
+    };
+
     const uploadImageToStorage = ({ imageUri }, callBack) => {
       const ext = imageUri && imageUri.split(".").pop();
       const filename = `${uuid()}.${ext}`;
@@ -59,6 +67,8 @@ const withFireBase = WrappedComponent => {
         updateItem={updateItem}
         uploadImageToStorage={uploadImageToStorage}
         fetchData={fetchData}
+        createAccount={createAccount}
+        signIn={signIn}
         items={data}
       />
     );

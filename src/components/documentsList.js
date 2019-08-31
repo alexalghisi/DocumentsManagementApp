@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     paddingBottom: Dimensions.primarySpacing
   },
   view: {
-      backgroundColor: Colors.containerBackgroundColor,
+    backgroundColor: Colors.containerBackgroundColor
   },
   typeTextStyle: {
     fontSize: Dimensions.primaryFontSize,

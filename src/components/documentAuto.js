@@ -1,5 +1,12 @@
-import React,  { useCallback } from "react";
-import { Text, View, Image, TouchableOpacity, Dimensions as ScreenDimensions, StyleSheet } from "react-native";
+import React, { useCallback } from "react";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions as ScreenDimensions,
+  StyleSheet
+} from "react-native";
 import Colors from "../constants/colors";
 import Dimensions from "../constants/dimensions";
 
@@ -10,30 +17,30 @@ const DocumentAuto = props => {
 
   const onPress = React.useCallback(() => {
     const { navigation, item } = props;
-    navigation.navigate('DocumentDetailsScreen', {
+    navigation.navigate("DocumentDetailsScreen", {
       type: item.type,
       imageURI: item.imageURI,
       expire: item.expire,
       ID: item.id,
       name: item.name,
-      downloadURL: item.downloadURL,
+      downloadURL: item.downloadURL
     });
   }, [props]);
 
-    return (
+  return (
     <View style={styles.card}>
-      <TouchableOpacity
-        style={styles.card}
-        onPress={onPress}
-      >
-        <Image style={styles.card} source={{ uri: (item.downloadURL || item.imageURI) }} />
+      <TouchableOpacity style={styles.card} onPress={onPress}>
+        <Image
+          style={styles.card}
+          source={{ uri: item.downloadURL || item.imageURI }}
+        />
         <Text style={[styles.itemText, styles.typeTextStyle]}>{item.type}</Text>
         <Text style={[styles.itemText, styles.dateTextStyle]}>
           {item.expire}
         </Text>
       </TouchableOpacity>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
